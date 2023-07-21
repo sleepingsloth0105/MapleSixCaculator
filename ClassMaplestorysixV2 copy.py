@@ -12,8 +12,8 @@ class Enhance: # 5차 강화 코어
         self.damage_percent = []
         self.damage_rise = [ 112/111 , 113/112 , 114/113 , 115/114 , 116/115 , 117/116 , 118/117 , 119/118 , 125/119 , 126/125 , 
                         127/126 , 128/127 , 129/128 , 130/129 , 131/130 , 132/131 , 133/132 , 134/133 , 140/134 , 141/140, 
-                        142/141, 143/142 , 144/143 , 145/144 , 146/145 , 147/146 , 148/147 , 149/148 , 160/149, 1 ]
-        self.damage_rise10 = [125/111 , 140/125 , 160/140 , 1]
+                        142/141, 143/142 , 144/143 , 145/144 , 146/145 , 147/146 , 148/147 , 149/148 , 160/149, 0 ]
+        self.damage_rise10 = [125/111 , 140/125 , 160/140 , 0]
         self.piece = [ 23,27,30,34,38,42,45,49,150,60,68,75,83,90,98,105,113,120,263,128,135,143,150,158,165,173,180,188,375,10]
         self.piece10 = [438 , 1075 , 1795 ,10]
         self.level= [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
@@ -108,7 +108,7 @@ class CharacterV2:
             if count == 9 or count == 19 or count == 29 or count == 30:
                 dmgrise10.append(newdmg)
                 newdmg = 1
-        dmgrise10.append(1)
+        dmgrise10.append(0)
         self.masteryinfo.adddamagerise10(skillname,dmgrise10)
     def mastery_adddamagerise(self,skillname,firstleveldmg,increaseddmg):
         dmgrise = []
@@ -118,7 +118,7 @@ class CharacterV2:
             newdmg = new / old
             dmgrise.append(newdmg)
             old = new
-        dmgrise.append(1)
+        dmgrise.append(0)
         self.masteryinfo.adddamagerise(skillname,dmgrise)
         self.mastery_adddamagerise10(skillname)
     
@@ -140,7 +140,7 @@ class CharacterV2:
                 dmgrise10.append(newdmg)
                 newdmg = 1
                 count = 0
-        dmgrise10.append(1)
+        dmgrise10.append(0)
         self.skillinfo.adddamagerise10(skillname,dmgrise10)
     def skill_adddamagerise(self,skillname,firstleveldmg,increaseddmg):
         dmgrise = []
@@ -150,7 +150,7 @@ class CharacterV2:
             newdmg = new / old
             dmgrise.append(newdmg)
             old = new
-        dmgrise.append(1)
+        dmgrise.append(0)
         self.skillinfo.adddamagerise(skillname,dmgrise)
         self.skillinfo.damage_rise[skillname][8] = self.skillinfo.damage_rise[skillname][8] * self.calcdef20()
         self.skillinfo.damage_rise[skillname][18] = self.skillinfo.damage_rise[skillname][18] * self.calcboss20()
@@ -197,19 +197,19 @@ class CharacterV2:
         for i in range(len(self.current_enhance)):
             nextlevel = self.current_enhance[i] + 1
             idx = self.enhanceinfo.level.index(nextlevel)
-            add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise[idx]-1) / self.enhanceinfo.piece[idx]
+            add = self.enhanceinfo.damage_percent[i] * self.enhanceinfo.damage_rise[idx] / self.enhanceinfo.piece[idx]
             result.append(add)
             result_dic[add] = ['enhance',i,nextlevel,self.enhanceinfo.name[i]]
         for i in range(len(self.current_mastery)):
             nextlevel = self.current_mastery[i] + 1
             idx = self.masteryinfo.level.index(nextlevel)
-            add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx]-1) / self.masteryinfo.piece[idx]
+            add = self.masteryinfo.damage_percent[i] * self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx] / self.masteryinfo.piece[idx]
             result.append(add)
             result_dic[add] = ['mastery',i,nextlevel,self.masteryinfo.name[i]]
         for i in range(len(self.current_skill)):
             nextlevel = self.current_skill[i] + 1
             idx = self.skillinfo.level.index(nextlevel)
-            add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise[self.skillinfo.name[i]][idx]-1) / self.skillinfo.piece[idx]
+            add = self.skillinfo.damage_percent[i] * self.skillinfo.damage_rise[self.skillinfo.name[i]][idx] / self.skillinfo.piece[idx]
             result.append(add)
             result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i]]
         maxresult = max(result)
@@ -221,6 +221,8 @@ class CharacterV2:
                 return result_dic[maxresult]
         else:
             returnvalue = self.result10_dic[maxresult10]
+            self.result10.remove(maxresult10)
+            del self.result10_dic[maxresult10]
             return returnvalue
         
     '''
@@ -232,19 +234,19 @@ class CharacterV2:
         for i in range(len(self.current_enhance)):
             for j in range(len(self.enhanceinfo.level10)):
                 nextlevel = self.enhanceinfo.level10[j]
-                add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise10[j] - 1) / self.enhanceinfo.piece10[j]
+                add = self.enhanceinfo.damage_percent[i] * self.enhanceinfo.damage_rise10[j]  / self.enhanceinfo.piece10[j]
                 self.result10.append(add)
                 self.result10_dic[add] = ['enhance' , i , nextlevel , self.enhanceinfo.name[i]]
         for i in range(len(self.current_mastery)):
             for j in range(len(self.masteryinfo.level10)):
                 nextlevel = self.masteryinfo.level10[j]
-                add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise10[self.masteryinfo.name[i]][j] - 1) / self.masteryinfo.piece10[j]
+                add = self.masteryinfo.damage_percent[i] * self.masteryinfo.damage_rise10[self.masteryinfo.name[i]][j]  / self.masteryinfo.piece10[j]
                 self.result10.append(add)
                 self.result10_dic[add] = ['mastery' , i , nextlevel , self.masteryinfo.name[i]]
         for i in range(len(self.current_skill)):
             for j in range(len(self.skillinfo.level10)):
                 nextlevel = self.skillinfo.level10[j]
-                add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise10[self.skillinfo.name[i]][j] - 1)/ self.skillinfo.piece10[j]
+                add = self.skillinfo.damage_percent[i] * self.skillinfo.damage_rise10[self.skillinfo.name[i]][j] / self.skillinfo.piece10[j]
                 self.result10.append(add)
                 self.result10_dic[add] = ['skill' , i , nextlevel , self.enhanceinfo.name[i]]
                 
@@ -276,6 +278,7 @@ class CharacterV2:
                 if len(findkey) != 0:
                     del self.result10_dic[findkey[0]]
                     self.result10.remove(findkey[0])   
+
        
     ''' 만랩까지 반복
     효율 계산을 만렙이 될 때 까지 반복하는 함수이다.
@@ -329,6 +332,5 @@ class CharacterV2:
         resultfile.close()
 
         
-        '''
-        aaa
-        '''
+        
+                
