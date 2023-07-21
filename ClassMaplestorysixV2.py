@@ -246,7 +246,7 @@ class CharacterV2:
                 nextlevel = self.skillinfo.level10[j]
                 add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise10[self.skillinfo.name[i]][j] - 1)/ self.skillinfo.piece10[j]
                 self.result10.append(add)
-                self.result10_dic[add] = ['skill' , i , nextlevel , self.enhanceinfo.name[i]]
+                self.result10_dic[add] = ['skill' , i , nextlevel , self.skillinfo.name[i]]
                 
     
     '''
@@ -327,8 +327,3 @@ class CharacterV2:
             resultfile.write(data)
             resultfile.write('\n')
         resultfile.close()
-
-        
-        '''
-        aaa
-        '''
