@@ -1,6 +1,6 @@
-('D:\\python_project\\hobby\\MapleSixCalculater\\build\\Maple_User_interface\\PYZ-00.pyz',
+('D:\\python_project\\hobby\\MapleSixCalculator\\build\\Maple_user_interface\\PYZ-00.pyz',
  [('ClassMaplestorysixV2',
-   'D:\\python_project\\hobby\\MapleSixCalculater\\ClassMaplestorysixV2.py',
+   'D:\\python_project\\hobby\\MapleSixCalculator\\ClassMaplestorysixV2.py',
    'PYMODULE'),
   ('_compat_pickle', 'C:\\Python\\Lib\\_compat_pickle.py', 'PYMODULE'),
   ('_compression', 'C:\\Python\\Lib\\_compression.py', 'PYMODULE'),
