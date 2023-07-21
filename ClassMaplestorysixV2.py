@@ -1,5 +1,11 @@
+'''
+제작자 email : 6zzzzzz610@gmail.com 
+각종 문의(오류, 요청사항 등)은 이메일로 보내주세요
+'''
 import os
-
+'''Class Enhance , Mastery , Skill은 각각 강화코어, 마스터리 코어 , 6차스킬코어의
+이름 , 딜지분 , 딜 상승률 , 10레벨 단위 딜 상승률 , 레벨 당 소각 소모량 , 10레벨 당 조각 소모량 정보를 가지고 있다.
+'''
 class Enhance: # 5차 강화 코어
     def __init__(self):
         self.name = []
@@ -7,8 +13,11 @@ class Enhance: # 5차 강화 코어
         self.damage_rise = [ 112/111 , 113/112 , 114/113 , 115/114 , 116/115 , 117/116 , 118/117 , 119/118 , 125/119 , 126/125 , 
                         127/126 , 128/127 , 129/128 , 130/129 , 131/130 , 132/131 , 133/132 , 134/133 , 140/134 , 141/140, 
                         142/141, 143/142 , 144/143 , 145/144 , 146/145 , 147/146 , 148/147 , 149/148 , 160/149, 1 ]
-        self.piece = [ 23,27,30,34,38,42,45,49,150,60,68,75,83,90,98,105,113,120,263,128,135,143,150,158,165,173,180,188,375,10] 
+        self.damage_rise10 = [125/111 , 140/125 , 160/140 , 1]
+        self.piece = [ 23,27,30,34,38,42,45,49,150,60,68,75,83,90,98,105,113,120,263,128,135,143,150,158,165,173,180,188,375,10]
+        self.piece10 = [438 , 1075 , 1795 ,10]
         self.level= [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        self.level10 = [10,20,30,31]
     
     def addname(self, newname):
         for i in range(len(newname)):
@@ -22,8 +31,11 @@ class Mastery: # 마스터리 코어
         self.name = []
         self.damage_percent = []
         self.damage_rise = {}
+        self.damage_rise10 = {}
         self.piece = [15,18,20,23,25,28,30,33,100,40,45,50,55,60,65,70,75,80,175,85,90,95,100,105,110,115,120,125,250,10]
+        self.piece10 = [192, 640, 1120 , 250 ,10]
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        self.level10 = [9,19,29,30,31]
     
     def addname(self, newname):
         for i in range(len(newname)):
@@ -33,14 +45,19 @@ class Mastery: # 마스터리 코어
             self.damage_percent.append(newdamage[i])
     def adddamagerise(self,skillname,newdmgrise):
         self.damage_rise[skillname] = newdmgrise
+    def adddamagerise10(self,skillname,newdmgrise):
+        self.damage_rise10[skillname] = newdmgrise
         
 class Skill: # 6차 스킬 (오리진 등등)
     def __init__(self):
         self.name = []
         self.damage_percent = []
         self.damage_rise = {}
+        self.damage_rise10 ={}
         self.piece = [ 30,35,40,45,50,55,60,65,200,80,90,100,110,120,130,140,150,160,350,170,180,190,200,210,220,230,240,250,500,10 ] 
+        self.piece10 = [580, 1430, 2390, 10]
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        self.level10 = [10,20,30,31]
         
     def addname(self, newname):
         for i in range(len(newname)):
@@ -50,7 +67,9 @@ class Skill: # 6차 스킬 (오리진 등등)
             self.damage_percent.append(newdamage[i])
     def adddamagerise(self,skillname,newdmgrise):
         self.damage_rise[skillname] = newdmgrise
-        
+    def adddamagerise10(self,skillname,newdmgrise):
+        self.damage_rise10[skillname] = newdmgrise
+''' class CharacterV2는 효율과 관련된 모든 연산을 담아둔 class이다.'''        
 class CharacterV2:
     def __init__(self,bossdamage,ignoredef):
         self.current_enhance = []
@@ -61,9 +80,10 @@ class CharacterV2:
         self.skillinfo = Skill()
         self.bossdmg = 100 + bossdamage
         self.ignoredef=ignoredef
-        
+        self.result10 = []
+        self.result10_dic = {}
     
-    ''' 캐릭터 스킬 정보 추가 '''
+    ''' 강화 코어 정보 추가 '''
     def enhance_addname(self,*newname):
         self.enhanceinfo.addname(newname)
         for i in range(len(newname)):
@@ -71,15 +91,28 @@ class CharacterV2:
     def enhance_adddamagepercent(self,*newdmgper):
         self.enhanceinfo.adddamagepercent(newdmgper)
         
+    '''마스터리 코어 정보 추가'''    
     def mastery_addname(self,*newname):
         self.masteryinfo.addname(newname)
         for i in range(len(newname)):
             self.current_mastery.append(1)
     def mastery_adddamagepercent(self,*newdmgper):
         self.masteryinfo.adddamagepercent(newdmgper)
+    def mastery_adddamagerise10(self,skillname):
+        count = 1
+        newdmg = 1
+        dmgrise10 = []
+        for i in range(29):
+            newdmg *= self.masteryinfo.damage_rise[skillname][i]
+            count += 1
+            if count == 9 or count == 19 or count == 29 or count == 30:
+                dmgrise10.append(newdmg)
+                newdmg = 1
+        dmgrise10.append(1)
+        self.masteryinfo.adddamagerise10(skillname,dmgrise10)
     def mastery_adddamagerise(self,skillname,firstleveldmg,increaseddmg):
         dmgrise = []
-        old = firstleveldmg
+        old = firstleveldmg + increaseddmg
         for i in range(29):
             new = old + increaseddmg
             newdmg = new / old
@@ -87,16 +120,31 @@ class CharacterV2:
             old = new
         dmgrise.append(1)
         self.masteryinfo.adddamagerise(skillname,dmgrise)
-
+        self.mastery_adddamagerise10(skillname)
+    
+    '''스킬 코어 정보 추가'''
     def skill_addname(self,*newname):
         self.skillinfo.addname(newname)
         for i in range(len(newname)):
             self.current_skill.append(1)
     def skill_adddamagepercent(self,*newdmgper):
         self.skillinfo.adddamagepercent(newdmgper)
+    def skill_adddamagerise10(self,skillname):
+        count = 1
+        newdmg = 1
+        dmgrise10 = []
+        for i in range(29):
+            newdmg *= self.skillinfo.damage_rise[skillname][i]
+            count += 1
+            if count == 10:
+                dmgrise10.append(newdmg)
+                newdmg = 1
+                count = 0
+        dmgrise10.append(1)
+        self.skillinfo.adddamagerise10(skillname,dmgrise10)
     def skill_adddamagerise(self,skillname,firstleveldmg,increaseddmg):
         dmgrise = []
-        old = firstleveldmg
+        old = firstleveldmg + increaseddmg
         for i in range(29):
             new = old + increaseddmg
             newdmg = new / old
@@ -107,8 +155,10 @@ class CharacterV2:
         self.skillinfo.damage_rise[skillname][8] = self.skillinfo.damage_rise[skillname][8] * self.calcdef20()
         self.skillinfo.damage_rise[skillname][18] = self.skillinfo.damage_rise[skillname][18] * self.calcboss20()
         self.skillinfo.damage_rise[skillname][28] =  self.skillinfo.damage_rise[skillname][28] * self.calcboss50() * self.calcdef50()
+        self.skill_adddamagerise10(skillname)
+    
         
-    '''오리진스킬 보공 계산'''    
+    '''오리진스킬 보공 효율 계산'''    
     def calcboss20(self):
         newdmg = self.bossdmg + 20
         return newdmg / self.bossdmg
@@ -116,7 +166,7 @@ class CharacterV2:
         newdmg = self.bossdmg + 50
         return newdmg / self.bossdmg
     
-    '''오리진스킬 방무 계산'''
+    '''오리진스킬 방무 효율 계산'''
     def calcdef20(self):
         oldignoredef = (1 - (self.ignoredef/100))
         newignoredef = (1 - (self.ignoredef/100)) * (1 - 0.2)
@@ -132,7 +182,15 @@ class CharacterV2:
     
         
              
-    ''' 가장 효율적인 스킬 레벨업 계산'''    
+    ''' 
+    1레벨 단위가장 효율적인 스킬 레벨업 계산
+    각 강화 코어 , 마스터리 코어 , 스킬 코어에 대해
+    특정 스킬의 현재 레벨을 탐색하고 그 레벨에서 레벨업 했을 때의 딜 상승률을 찾아
+    (해당 스킬의 딜지분) * (딜 상승률) / (레벨업에 필요한 조각) 연산을 시행해 조각 1개당 딜상승률을 찾은 뒤
+    result에 조각당 딜 상승률을 저장하고 result_dic에 코어의 유형 , index , 레벨업한 레벨 , 스킬 이름을 저장한다.
+    그리고 result에 저장된 값과 사전에 계산된 10레벨 기준으로 계산된 효율을 모두 합해 최고의 효율을 찾은 뒤
+    그 효율에 관련된 result_dic에 담긴 정보를 반환한다.
+    '''    
     def calculate(self):
         result = []
         result_dic = {}
@@ -155,12 +213,49 @@ class CharacterV2:
             result.append(add)
             result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i]]
         maxresult = max(result)
-        if maxresult == 0:
-            return 0
+        maxresult10 = max(self.result10)
+        if maxresult >= maxresult10:
+            if maxresult == 0:
+                return 0
+            else:
+                return result_dic[maxresult]
         else:
-            return result_dic[maxresult]
+            returnvalue = self.result10_dic[maxresult10]
+            self.result10.remove(maxresult10)
+            del self.result10_dic[maxresult10]
+            return returnvalue
         
-    '''캐릭터 레벨 업'''        
+    '''
+    10레벨 단위로 효율성 계산
+    calculate 함수에서 한 것과 같은 연산을 10레벨 단위로 시행하고,
+    그 결과값을 self.result10 , self.result10_dic에 저장한다
+    '''    
+    def calculate10(self):
+        for i in range(len(self.current_enhance)):
+            for j in range(len(self.enhanceinfo.level10)):
+                nextlevel = self.enhanceinfo.level10[j]
+                add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise10[j] - 1) / self.enhanceinfo.piece10[j]
+                self.result10.append(add)
+                self.result10_dic[add] = ['enhance' , i , nextlevel , self.enhanceinfo.name[i]]
+        for i in range(len(self.current_mastery)):
+            for j in range(len(self.masteryinfo.level10)):
+                nextlevel = self.masteryinfo.level10[j]
+                add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise10[self.masteryinfo.name[i]][j] - 1) / self.masteryinfo.piece10[j]
+                self.result10.append(add)
+                self.result10_dic[add] = ['mastery' , i , nextlevel , self.masteryinfo.name[i]]
+        for i in range(len(self.current_skill)):
+            for j in range(len(self.skillinfo.level10)):
+                nextlevel = self.skillinfo.level10[j]
+                add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise10[self.skillinfo.name[i]][j] - 1)/ self.skillinfo.piece10[j]
+                self.result10.append(add)
+                self.result10_dic[add] = ['skill' , i , nextlevel , self.enhanceinfo.name[i]]
+                
+    
+    '''
+    캐릭터 레벨 업
+    calculator의 결과값 list를 입력받아서
+    현재 캐릭터가 가진 스킬 레벨을 변화시킨다.
+    '''        
     def levelup(self,calcresult):
         if calcresult[0] == 'enhance':
             self.current_enhance[calcresult[1]] = calcresult[2]
@@ -168,12 +263,27 @@ class CharacterV2:
             self.current_mastery[calcresult[1]] = calcresult[2]   
         else:
             self.current_skill[calcresult[1]] = calcresult[2]
-            
-    ''' 만랩까지 반복'''
+       
+    ''' 만랩까지 반복
+    효율 계산을 만렙이 될 때 까지 반복하는 함수이다.
+    return 값인 record에는 강화해야할 순서가 [스킬이름, 레벨]의 형태로 저장된다.
+    예를 들어 폭시를 5레벨까지 -> 잔시를 2레벨까지 -> 오리진을 2레벨까지가 강화 순서라면
+    [[폭시,5] , [잔시,2] , [오리진,2]]와 같이 저장된다.
+    calculate10을 실행해 10레벨 효율을 계산한 뒤
+    만약 calculate의 값이 0이 아니라면 == 만렙이 아니라면
+    calculate의 결과를 calinfo에 저장한다.
+    만약 기존의 이름과 새로 들어온 이름이 다르다면 강화해야 할 스킬이 변한 것이므로
+    현재 강화해야 할 스킬의 이름과 단계를 record에 저장하고, 과거의 이름과 스킬 단계를 저장해둔다.
+    만약 기존에 저장되어 있던 이름과 새로 들어온 이름이 같다면 레벨만을 변경한다.
+    그리고 변경한 레벨을 levelup함수를 이용해 변경한다.
+    만약 이번 시행으로 만렙이 된다면, 그 값을 저장하고 반복문을 벗어난다.
+    이후 record를 리턴값으로 반환한다.
+    ''' 
     def levelup_max(self):
         record = []
         old = "시작"
         num = 0
+        self.calculate10()
         while self.calculate() != 0:
             calcinfo = self.calculate()
             new = calcinfo[3]
@@ -187,8 +297,12 @@ class CharacterV2:
             if self.calculate() == 0:
                 record.append([old, num])
         return record
-    
-    '''출력'''
+   
+    '''
+    출력
+    외부에서 효율을 계산할 때 사용할 함수
+    levelup_max의 결과값을 같은 폴더의 result.txt.에 저장한다.
+    '''
     def printresult(self):
         result = self.levelup_max()
         recentdir = os.path.dirname(os.path.realpath(__file__))
@@ -204,96 +318,3 @@ class CharacterV2:
         
         
                 
-'''       
-class Sixskill: # 6차 전체를 관리하는 클래스
-    def __init__(self):
-        self.enhance = Enhance()
-        self.mastery = Mastery()
-        self.skill = Skill()
-        self.result = []
-        self.resultdamage = []
-        self.result_dic = {}
-        
-    def enhance_addname(self,*newname):
-        self.enhance.addname(newname)
-    def enhance_adddamagepercent(self,*newdmgper):
-        self.enhance.adddamagepercent(newdmgper)
-        
-    def mastery_addname(self,*newname):
-        self.mastery.addname(newname)
-    def mastery_adddamagepercent(self,*newdmgper):
-        self.mastery.adddamagepercent(newdmgper)
-    def mastery_adddamagerise(self,skillname,firstleveldmg,increaseddmg):
-        dmgrise = []
-        old = firstleveldmg
-        for i in range(29):
-            new = old + increaseddmg
-            newdmg = new / old
-            dmgrise.append(newdmg)
-            old = new
-        self.mastery.adddamagerise(skillname,dmgrise)
-
-    def skill_addname(self,*newname):
-        self.skill.addname(newname)
-    def skill_adddamagepercent(self,*newdmgper):
-        self.skill.adddamagepercent(newdmgper)
-    def skill_adddamagerise(self,skillname,firstleveldmg,increaseddmg):
-        dmgrise = []
-        old = firstleveldmg
-        for i in range(29):
-            new = old + increaseddmg
-            newdmg = new / old
-            dmgrise.append(newdmg)
-            old = new
-        self.skill.adddamagerise(skillname,dmgrise)
-
-
-    def calculate(self):
-        for i in range(len(self.enhance.name)):
-            current = self.enhance.name[i]
-            current_damage_percent = self.enhance.damage_percent[i]
-            for j in range(len(self.enhance.piece)):
-                increased_damage_per_piece = current_damage_percent * (self.enhance.damage_rise[j] - 1) * 100 / self.enhance.piece[j]
-                self.result.append(increased_damage_per_piece)
-                self.result_dic[increased_damage_per_piece] = [current , self.enhance.level_change[j] , current_damage_percent * (self.enhance.damage_rise[j] - 1) * 100 ]
-                
-        for i in range(len(self.mastery.name)):
-            current = self.mastery.name[i]
-            current_damage_percent = self.mastery.damage_percent[i]
-            for j in range(len(self.mastery.piece)):
-                increased_damage_per_piece = current_damage_percent * (self.mastery.damage_rise[current][j] - 1) * 100 / self.mastery.piece[j]
-                self.result.append(increased_damage_per_piece)
-                self.result_dic[increased_damage_per_piece] = [current , self.mastery.level_change[j] , current_damage_percent * (self.mastery.damage_rise[current][j] - 1) * 100]
-
-        for i in range(len(self.skill.name)):
-            current = self.skill.name[i]
-            current_damage_percent = self.skill.damage_percent[i]
-            for j in range(len(self.skill.piece)):
-                increased_damage_per_piece = current_damage_percent * (self.skill.damage_rise[current][j] - 1) * 100 / self.skill.piece[j]
-                self.result.append(increased_damage_per_piece)
-                self.result_dic[increased_damage_per_piece] = [current , self.skill.level_change[j] , current_damage_percent * (self.skill.damage_rise[current][j] - 1) * 100]
-        
-        self.result.sort(reverse = True)
-
-    def printresult(self): 
-        currentnum = 0
-        old = ""
-        new = ""
-        for i in range(len(self.result)):
-            new = self.result_dic[self.result[i]][0]
-            if i == 0:
-                currentnum = self.result_dic[self.result[i]][1]
-                old = self.result_dic[self.result[i]][0]
-            elif old != new:
-                print("스킬 :", old, "/", "레벨 :", currentnum)
-                old = new
-                currentnum = self.result_dic[self.result[i]][1]
-            else:
-                currentnum = self.result_dic[self.result[i]][1]
-
-"""      
-    def printresult_withnumber(self): 
-        for i in range(len(self.result)):
-            print(self.result_dic[self.result[i]][0] ," ", self.result_dic[self.result[i]][1] ," " ,self.result_dic[self.result[i]][2] ,"%" ,sep="")
-"""
-'''
