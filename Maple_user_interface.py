@@ -1,42 +1,42 @@
 from tkinter import *
 import tkinter.font as font
 import tkinter.ttk as ttk
+from ClassMaplestorysixV1 import *
 from ClassMaplestorysixV2 import *
 
 root = Tk()
 '''기본 '''
-root.title("6차 딜상승률 계산기")
+root.title("6차 딜상승량 계산기")
 root.geometry("1280x720+350+100")
 titlefont = font.Font(size=15, family="Malgun Gothic")
 generalfont = font.Font(size = 10, family="Malgun Gothic")
 activefont = font.Font(size= 40 , family="Malgun Gothic")
 '''제목 및 설명'''
 
-frame_explane = LabelFrame(root, text="6차 딜상승률 계산기" ,bd = 0,font= titlefont , labelanchor="n" )
-frame_explane.place(x=20 , y = 50, width = 260, height= 330)
+frame_explane = LabelFrame(root, text="6차 스킬트리 계산기" ,bd = 0,font= titlefont , labelanchor="n" )
+frame_explane.place(x=20 , y = 50, width = 260, height= 350)
 explanation1 = Label(frame_explane , text = "\n사용방법",font=generalfont)
 explanation1.pack()
-explanation2 = Label(frame_explane , text = "1. 현재 내 보공과 방무를 입력하고 \n 하단의 드래그박스를 이용해 \n 버전을 선택",font=generalfont)
+explanation2 = Label(frame_explane , text = "1. 현재 내 보총뎀과 방무를 입력하고 \n 하단의 드래그박스를 이용해 \n 효율 계산을 원하는 재화 선택",font=generalfont)
 explanation2.pack()
-explanation3 = Label(frame_explane , text = "2. 스킬 관련 정보를 각 칸에 입력 \n5차 강화코어는 이름 , 딜지분 \n 마스터리와 6차는 이름, 딜지분, \n \"1\"레벨 스킬 데미지, 레벨당 데미지 상승량",font=generalfont)
+explanation3 = Label(frame_explane , text = "2. 스킬 관련 정보를 각 칸에 입력 \n 주의 : 스킬 데미지는 \"0\"레벨 스킬 데미지 \n 상승량은 레벨당 데미지 상승량 \n ex) 폭시 기준 스킬 데미지 365 , 상승량 7", font=generalfont)
 explanation3.pack()
 explanation4 = Label(frame_explane , text = "3. 계산 버튼을 누르기",font=generalfont)
 explanation4.pack()
-explanation5 = Label(frame_explane , text = "4. 같은 폴더 안에 생성된 \n result.txt에서 결과를 확인",font=generalfont )
+explanation5 = Label(frame_explane , text = "4. 같은 폴더 안에 생성된 \n 스킬트리.txt에서 결과를 확인",font=generalfont )
 explanation5.pack()
-explanation6 = Label(frame_explane , text = "참고 : 딜지분, 방무는 \n xx.xx의 형태로 입력 예시) 13.92",font=generalfont )
+explanation6 = Label(frame_explane , text = "참고 : 딜지분, 방무는 xx.xx의 형태로 입력 \n ex) 13.92 \n 보총뎀과 방무는 6차 스킬(오리진)을 \n 사용할 때의 값으로 입력" ,font=generalfont )
 explanation6.pack()
-'''보공 , 방무 입력 및 버전 선택'''
-bossdamage = Label(root , text="보공 : " , font=generalfont)
+'''보총뎀 , 방무 입력 및 버전 선택'''
+bossdamage = Label(root , text="보총뎀 : " , font=generalfont)
 bossdamage.place(x=40 , y = 420)
 inputbossdamage = Entry(root , width = 5)
-inputbossdamage.place(x = 90 , y = 420)
+inputbossdamage.place(x = 100 , y = 420)
 defignore = Label(root, text="방무 : " , font=generalfont)
 defignore.place ( x = 160 , y = 420)
 inputignoredef = Entry(root , width = 5)
 inputignoredef.place(x = 210 , y = 420)
-# "1. 10레벨 단위 효율 계산(조각)" , 3. 10레벨 단위 효율 계산(솔 에르다) , 4. 각 레벨에서 효율 계산(솔 에르다) 추가
-version_value = [ "2. 각 레벨에서 효율 계산(조각)"]
+version_value = [ "1. 조각의 효율성 계산" , "2. 솔 에르다의 효율성 계산"]
 version = ttk.Combobox(root , values= version_value,state="readonly" , width = 28 , font=generalfont)
 version.current(0)
 version.place(x = 40 , y = 450)
@@ -153,10 +153,10 @@ masteryinputdmgper2.place(x= 290 ,y = 40)
 masteryinputdmgper3.place(x= 290 ,y = 70)
 masteryinputdmgper4.place(x= 290 ,y = 100)
 
-level1dmg1 = Label(frame_mastery , text = "1레벨 데미지 :", font=generalfont)
-level1dmg2 = Label(frame_mastery , text = "1레벨 데미지 :", font=generalfont)
-level1dmg3 = Label(frame_mastery , text = "1레벨 데미지 :", font=generalfont)
-level1dmg4 = Label(frame_mastery , text = "1레벨 데미지 :", font=generalfont)
+level1dmg1 = Label(frame_mastery , text = "스킬 데미지 :", font=generalfont)
+level1dmg2 = Label(frame_mastery , text = "스킬 데미지 :", font=generalfont)
+level1dmg3 = Label(frame_mastery , text = "스킬 데미지 :", font=generalfont)
+level1dmg4 = Label(frame_mastery , text = "스킬 데미지 :", font=generalfont)
 level1dmg1.place(x=340 , y = 10)
 level1dmg2.place(x=340 , y = 40)
 level1dmg3.place(x=340 , y = 70)
@@ -170,10 +170,10 @@ masteryinputlevel1dmg2.place(x= 430 ,y = 40)
 masteryinputlevel1dmg3.place(x= 430 ,y = 70)
 masteryinputlevel1dmg4.place(x= 430 ,y = 100)
 
-levelupdmg1 = Label(frame_mastery , text = "상승률 :", font=generalfont)
-levelupdmg2 = Label(frame_mastery , text = "상승률 :", font=generalfont)
-levelupdmg3 = Label(frame_mastery , text = "상승률 :", font=generalfont)
-levelupdmg4 = Label(frame_mastery , text = "상승률 :", font=generalfont)
+levelupdmg1 = Label(frame_mastery , text = "상승량 :", font=generalfont)
+levelupdmg2 = Label(frame_mastery , text = "상승량 :", font=generalfont)
+levelupdmg3 = Label(frame_mastery , text = "상승량 :", font=generalfont)
+levelupdmg4 = Label(frame_mastery , text = "상승량 :", font=generalfont)
 levelupdmg1.place(x=480 , y = 10)
 levelupdmg2.place(x=480 , y = 40)
 levelupdmg3.place(x=480 , y = 70)
@@ -274,12 +274,12 @@ skillinputdmgper4.place(x= 290 ,y = 100)
 skillinputdmgper5.place(x= 290 ,y = 130)
 skillinputdmgper6.place(x= 290 ,y = 160)
 
-level1dmg1 = Label(frame_skill , text = "1레벨 데미지 :", font=generalfont)
-level1dmg2 = Label(frame_skill , text = "1레벨 데미지 :", font=generalfont)
-level1dmg3 = Label(frame_skill , text = "1레벨 데미지 :", font=generalfont)
-level1dmg4 = Label(frame_skill , text = "1레벨 데미지 :", font=generalfont)
-level1dmg5 = Label(frame_skill , text = "1레벨 데미지 :", font=generalfont)
-level1dmg6 = Label(frame_skill , text = "1레벨 데미지 :", font=generalfont)
+level1dmg1 = Label(frame_skill , text = "스킬 데미지 :", font=generalfont)
+level1dmg2 = Label(frame_skill , text = "스킬 데미지 :", font=generalfont)
+level1dmg3 = Label(frame_skill , text = "스킬 데미지 :", font=generalfont)
+level1dmg4 = Label(frame_skill , text = "스킬 데미지 :", font=generalfont)
+level1dmg5 = Label(frame_skill , text = "스킬 데미지 :", font=generalfont)
+level1dmg6 = Label(frame_skill , text = "스킬 데미지 :", font=generalfont)
 level1dmg1.place(x=340 , y = 10)
 level1dmg2.place(x=340 , y = 40)
 level1dmg3.place(x=340 , y = 70)
@@ -299,12 +299,12 @@ skillinputlevel1dmg4.place(x= 430 ,y = 100)
 skillinputlevel1dmg5.place(x= 430 ,y = 130)
 skillinputlevel1dmg6.place(x= 430 ,y = 160)
 
-levelupdmg1 = Label(frame_skill , text = "상승률 :", font=generalfont)
-levelupdmg2 = Label(frame_skill , text = "상승률 :", font=generalfont)
-levelupdmg3 = Label(frame_skill , text = "상승률 :", font=generalfont)
-levelupdmg4 = Label(frame_skill , text = "상승률 :", font=generalfont)
-levelupdmg5 = Label(frame_skill , text = "상승률 :", font=generalfont)
-levelupdmg6 = Label(frame_skill , text = "상승률 :", font=generalfont)
+levelupdmg1 = Label(frame_skill , text = "상승량 :", font=generalfont)
+levelupdmg2 = Label(frame_skill , text = "상승량 :", font=generalfont)
+levelupdmg3 = Label(frame_skill , text = "상승량 :", font=generalfont)
+levelupdmg4 = Label(frame_skill , text = "상승량 :", font=generalfont)
+levelupdmg5 = Label(frame_skill , text = "상승량 :", font=generalfont)
+levelupdmg6 = Label(frame_skill , text = "상승량 :", font=generalfont)
 levelupdmg1.place(x=510 , y = 10)
 levelupdmg2.place(x=510 , y = 40)
 levelupdmg3.place(x=510 , y = 70)
@@ -351,9 +351,9 @@ skillinputlevel6.place(x= 640 ,y = 160)
 '''
 '''active 버튼'''
 def active():
-#    if version.get() == "1. 10레벨 단위 효율 계산(조각)":
-#        mycharacter = Sixskill()
-    if version.get() == "2. 각 레벨에서 효율 계산(조각)":
+    if version.get() == "1. 조각의 효율성 계산":
+        mycharacter = CharacterV1(int(inputbossdamage.get()) , float(inputignoredef.get()))
+    if version.get() == "2. 솔 에르다의 효율성 계산":
         mycharacter = CharacterV2(int(inputbossdamage.get()) , float(inputignoredef.get()))
     
     if enhanceinputname1.get() != "":
