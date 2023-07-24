@@ -86,7 +86,7 @@ enhanceinputdmgper1.place(x= 290 ,y = 10)
 enhanceinputdmgper2.place(x= 290 ,y = 40)
 enhanceinputdmgper3.place(x= 290 ,y = 70)
 enhanceinputdmgper4.place(x= 290 ,y = 100)
-'''
+
 level1 = Label(frame_enhance , text = "레벨 :", font=generalfont)
 level2 = Label(frame_enhance , text = "레벨 :", font=generalfont)
 level3 = Label(frame_enhance , text = "레벨 :", font=generalfont)
@@ -103,7 +103,7 @@ enhanceinputlevel1.place(x= 390 ,y = 10)
 enhanceinputlevel2.place(x= 390 ,y = 40)
 enhanceinputlevel3.place(x= 390 ,y = 70)
 enhanceinputlevel4.place(x= 390 ,y = 100)
-'''
+
 
 
 '''마스터리 코어'''
@@ -186,7 +186,7 @@ masteryinputlevelupdmg1.place(x= 540 ,y = 10)
 masteryinputlevelupdmg2.place(x= 540 ,y = 40)
 masteryinputlevelupdmg3.place(x= 540 ,y = 70)
 masteryinputlevelupdmg4.place(x= 540 ,y = 100)
-'''
+
 level1 = Label(frame_mastery , text = "레벨 :", font=generalfont)
 level2 = Label(frame_mastery , text = "레벨 :", font=generalfont)
 level3 = Label(frame_mastery , text = "레벨 :", font=generalfont)
@@ -203,7 +203,7 @@ masteryinputlevel1.place(x= 640 ,y = 10)
 masteryinputlevel2.place(x= 640 ,y = 40)
 masteryinputlevel3.place(x= 640 ,y = 70)
 masteryinputlevel4.place(x= 640 ,y = 100)
-'''
+
 
 
 '''6차 스킬 코어'''
@@ -311,44 +311,44 @@ levelupdmg3.place(x=510 , y = 70)
 levelupdmg4.place(x=510 , y = 100)
 levelupdmg5.place(x=510 , y = 130)
 levelupdmg6.place(x=510 , y = 160)
-skillinputlevelupdmg1 = Entry(frame_skill, width= 5)
-skillinputlevelupdmg2 = Entry(frame_skill, width= 5)
-skillinputlevelupdmg3 = Entry(frame_skill, width= 5)
-skillinputlevelupdmg4 = Entry(frame_skill, width= 5)
-skillinputlevelupdmg5 = Entry(frame_skill, width= 5)
-skillinputlevelupdmg6 = Entry(frame_skill, width= 5)
+skillinputlevelupdmg1 = Entry(frame_skill, width= 6)
+skillinputlevelupdmg2 = Entry(frame_skill, width= 6)
+skillinputlevelupdmg3 = Entry(frame_skill, width= 6)
+skillinputlevelupdmg4 = Entry(frame_skill, width= 6)
+skillinputlevelupdmg5 = Entry(frame_skill, width= 6)
+skillinputlevelupdmg6 = Entry(frame_skill, width= 6)
 skillinputlevelupdmg1.place(x= 570 ,y = 10)
 skillinputlevelupdmg2.place(x= 570 ,y = 40)
 skillinputlevelupdmg3.place(x= 570 ,y = 70)
 skillinputlevelupdmg4.place(x= 570 ,y = 100)
 skillinputlevelupdmg5.place(x= 570 ,y = 130)
 skillinputlevelupdmg6.place(x= 570 ,y = 160)
-'''
+
 level1 = Label(frame_skill , text = "레벨 :", font=generalfont)
 level2 = Label(frame_skill , text = "레벨 :", font=generalfont)
 level3 = Label(frame_skill , text = "레벨 :", font=generalfont)
 level4 = Label(frame_skill , text = "레벨 :", font=generalfont)
 level5 = Label(frame_skill , text = "레벨 :", font=generalfont)
 level6 = Label(frame_skill , text = "레벨 :", font=generalfont)
-level1.place(x=590 , y = 10)
-level2.place(x=590 , y = 40)
-level3.place(x=590 , y = 70)
-level4.place(x=590 , y = 100)
-level5.place(x=590 , y = 130)
-level6.place(x=590 , y = 160)
+level1.place(x=630 , y = 10)
+level2.place(x=630 , y = 40)
+level3.place(x=630 , y = 70)
+level4.place(x=630 , y = 100)
+level5.place(x=630 , y = 130)
+level6.place(x=630 , y = 160)
 skillinputlevel1 = Entry(frame_skill, width= 5)
 skillinputlevel2 = Entry(frame_skill, width= 5)
 skillinputlevel3 = Entry(frame_skill, width= 5)
 skillinputlevel4 = Entry(frame_skill, width= 5)
 skillinputlevel5 = Entry(frame_skill, width= 5)
 skillinputlevel6 = Entry(frame_skill, width= 5)
-skillinputlevel1.place(x= 640 ,y = 10)
-skillinputlevel2.place(x= 640 ,y = 40)
-skillinputlevel3.place(x= 640 ,y = 70)
-skillinputlevel4.place(x= 640 ,y = 100)
-skillinputlevel5.place(x= 640 ,y = 130)
-skillinputlevel6.place(x= 640 ,y = 160)
-'''
+skillinputlevel1.place(x= 680 ,y = 10)
+skillinputlevel2.place(x= 680 ,y = 40)
+skillinputlevel3.place(x= 680 ,y = 70)
+skillinputlevel4.place(x= 680 ,y = 100)
+skillinputlevel5.place(x= 680 ,y = 130)
+skillinputlevel6.place(x= 680 ,y = 160)
+
 '''active 버튼'''
 def active():
     if version.get() == "1. 조각의 효율성 계산":
@@ -357,57 +357,99 @@ def active():
         mycharacter = CharacterV2(int(inputbossdamage.get()) , float(inputignoredef.get()))
     
     if enhanceinputname1.get() != "":
-        mycharacter.enhance_addname(enhanceinputname1.get())
+        if enhanceinputlevel1.get() != "":
+            mycharacter.enhance_addname_and_level(enhanceinputname1.get(),enhanceinputlevel1.get())
+        else:
+            mycharacter.enhance_addname_and_level(enhanceinputname1.get())
         mycharacter.enhance_adddamagepercent(float(enhanceinputdmgper1.get())/100)
     if enhanceinputname2.get() != "":
-        mycharacter.enhance_addname(enhanceinputname2.get())
+        if enhanceinputlevel2.get() != "":
+            mycharacter.enhance_addname_and_level(enhanceinputname2.get(),enhanceinputlevel2.get())
+        else:
+            mycharacter.enhance_addname_and_level(enhanceinputname2.get())
         mycharacter.enhance_adddamagepercent(float(enhanceinputdmgper2.get())/100)
     if enhanceinputname3.get() != "":
-        mycharacter.enhance_addname(enhanceinputname3.get())
+        if enhanceinputlevel3.get() != "":
+            mycharacter.enhance_addname_and_level(enhanceinputname3.get(),enhanceinputlevel3.get())
+        else:
+            mycharacter.enhance_addname_and_level(enhanceinputname3.get())
         mycharacter.enhance_adddamagepercent(float(enhanceinputdmgper3.get())/100)
     if enhanceinputname4.get() != "":
-        mycharacter.enhance_addname(enhanceinputname4.get())
+        if enhanceinputlevel4.get() != "":
+            mycharacter.enhance_addname_and_level(enhanceinputname4.get(),enhanceinputlevel4.get())
+        else:
+            mycharacter.enhance_addname_and_level(enhanceinputname4.get())
         mycharacter.enhance_adddamagepercent(float(enhanceinputdmgper4.get())/100)
         
     if masteryinputname1.get() != "":
-        mycharacter.mastery_addname(masteryinputname1.get())
+        if masteryinputlevel1.get() != "":
+            mycharacter.mastery_addname_and_level(masteryinputname1.get(),masteryinputlevel1.get())
+        else:
+            mycharacter.mastery_addname_and_level(masteryinputname1.get())
         mycharacter.mastery_adddamagepercent(float(masteryinputdmgper1.get())/100)
         mycharacter.mastery_adddamagerise(masteryinputname1.get(),int(masteryinputlevel1dmg1.get()),int(masteryinputlevelupdmg1.get()))
     if masteryinputname2.get() != "":
-        mycharacter.mastery_addname(masteryinputname2.get())
+        if masteryinputlevel2.get() != "":
+            mycharacter.mastery_addname_and_level(masteryinputname2.get(),masteryinputlevel2.get())
+        else:
+            mycharacter.mastery_addname_and_level(masteryinputname2.get())
         mycharacter.mastery_adddamagepercent(float(masteryinputdmgper2.get())/100)
         mycharacter.mastery_adddamagerise(masteryinputname2.get(),int(masteryinputlevel1dmg2.get()),int(masteryinputlevelupdmg2.get()))
     if masteryinputname3.get() != "":
-        mycharacter.mastery_addname(masteryinputname3.get())
+        if masteryinputlevel3.get() != "":
+            mycharacter.mastery_addname_and_level(masteryinputname3.get(),masteryinputlevel3.get())
+        else:
+            mycharacter.mastery_addname_and_level(masteryinputname3.get())
         mycharacter.mastery_adddamagepercent(float(masteryinputdmgper3.get())/100)
         mycharacter.mastery_adddamagerise(masteryinputname3.get(),int(masteryinputlevel1dmg3.get()),int(masteryinputlevelupdmg3.get()))
     if masteryinputname4.get() != "":
-        mycharacter.mastery_addname(masteryinputname4.get())
+        if masteryinputlevel4.get() != "":
+            mycharacter.mastery_addname_and_level(masteryinputname4.get(),masteryinputlevel4.get())
+        else:
+            mycharacter.mastery_addname_and_level(masteryinputname4.get())
         mycharacter.mastery_adddamagepercent(float(masteryinputdmgper4.get())/100)
         mycharacter.mastery_adddamagerise(masteryinputname4.get(),int(masteryinputlevel1dmg4.get()),int(masteryinputlevelupdmg4.get()))
         
     if skillinputname1.get() != "":
-        mycharacter.skill_addname(skillinputname1.get())
+        if skillinputlevel1.get() != "":
+            mycharacter.skill_addname_and_level(skillinputname1.get(),skillinputlevel1.get())
+        else:
+            mycharacter.skill_addname_and_level(skillinputname1.get())
         mycharacter.skill_adddamagepercent(float(skillinputdmgper1.get())/100)
         mycharacter.skill_adddamagerise(skillinputname1.get(),int(skillinputlevel1dmg1.get()),int(skillinputlevelupdmg1.get()))
     if skillinputname2.get() != "":
-        mycharacter.skill_addname(skillinputname2.get())
+        if skillinputlevel2.get() != "":
+            mycharacter.skill_addname_and_level(skillinputname2.get(),skillinputlevel2.get())
+        else:
+            mycharacter.skill_addname_and_level(skillinputname2.get())
         mycharacter.skill_adddamagepercent(float(skillinputdmgper2.get())/100)
         mycharacter.skill_adddamagerise(skillinputname2.get(),int(skillinputlevel1dmg2.get()),int(skillinputlevelupdmg2.get()))
     if skillinputname3.get() != "":
-        mycharacter.skill_addname(skillinputname3.get())
+        if skillinputlevel3.get() != "":
+            mycharacter.skill_addname_and_level(skillinputname3.get(),skillinputlevel3.get())
+        else:
+            mycharacter.skill_addname_and_level(skillinputname3.get())
         mycharacter.skill_adddamagepercent(float(skillinputdmgper3.get())/100)
         mycharacter.skill_adddamagerise(skillinputname3.get(),int(skillinputlevel1dmg3.get()),int(skillinputlevelupdmg3.get()))
     if skillinputname4.get() != "":
-        mycharacter.skill_addname(skillinputname4.get())
+        if skillinputlevel4.get() != "":
+            mycharacter.skill_addname_and_level(skillinputname4.get(),skillinputlevel4.get())
+        else:
+            mycharacter.skill_addname_and_level(skillinputname4.get())
         mycharacter.skill_adddamagepercent(float(skillinputdmgper4.get())/100)
         mycharacter.skill_adddamagerise(skillinputname4.get(),int(skillinputlevel1dmg4.get()),int(skillinputlevelupdmg4.get()))
     if skillinputname5.get() != "":
-        mycharacter.skill_addname(skillinputname5.get())
+        if skillinputlevel5.get() != "":
+            mycharacter.skill_addname_and_level(skillinputname5.get(),skillinputlevel5.get())
+        else:
+            mycharacter.skill_addname_and_level(skillinputname5.get())
         mycharacter.skill_adddamagepercent(float(skillinputdmgper5.get())/100)
         mycharacter.skill_adddamagerise(skillinputname5.get(),int(skillinputlevel1dmg5.get()),int(skillinputlevelupdmg5.get()))
     if skillinputname6.get() != "":
-        mycharacter.skill_addname(skillinputname6.get())
+        if skillinputlevel6.get() != "":
+            mycharacter.skill_addname_and_level(skillinputname6.get(),skillinputlevel6.get())
+        else:
+            mycharacter.skill_addname_and_level(skillinputname6.get())
         mycharacter.skill_adddamagepercent(float(skillinputdmgper6.get())/100)
         mycharacter.skill_adddamagerise(skillinputname6.get(),int(skillinputlevel1dmg6.get()),int(skillinputlevelupdmg6.get()))
         

@@ -10,18 +10,16 @@ class Enhance: # 5차 강화 코어
     def __init__(self):
         self.name = []
         self.damage_percent = []
-        self.damage_rise = [ 112/111 , 113/112 , 114/113 , 115/114 , 116/115 , 117/116 , 118/117 , 119/118 , 125/119 , 126/125 , 
+        self.damage_rise = [ 111/100 , 112/111 , 113/112 , 114/113 , 115/114 , 116/115 , 117/116 , 118/117 , 119/118 , 125/119 , 126/125 , 
                         127/126 , 128/127 , 129/128 , 130/129 , 131/130 , 132/131 , 133/132 , 134/133 , 140/134 , 141/140, 
                         142/141, 143/142 , 144/143 , 145/144 , 146/145 , 147/146 , 148/147 , 149/148 , 160/149, 1 ]
-        self.sol_erda = [ 1,1,1,1,2,2,2,3,3,8,3,3,3,3,3,3,3,3,4,12,4,4,4,4,4,5,5,5,6,15,100]
-        self.level= [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        self.sol_erda = [ 4,1,1,1,1,2,2,2,3,3,8,3,3,3,3,3,3,3,3,4,12,4,4,4,4,4,5,5,5,6,15,100]
+        self.level= [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
     def addname(self, newname):
-        for i in range(len(newname)):
-            self.name.append(newname[i])   
+        self.name.append(newname)   
     def adddamagepercent(self,newdamage):
-        for i in range(len(newdamage)):
-            self.damage_percent.append(newdamage[i])
+        self.damage_percent.append(newdamage)
         
 class Mastery: # 마스터리 코어
     def __init__(self):
@@ -32,11 +30,9 @@ class Mastery: # 마스터리 코어
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
     def addname(self, newname):
-        for i in range(len(newname)):
-            self.name.append(newname[i])   
+        self.name.append(newname)   
     def adddamagepercent(self,newdamage):
-        for i in range(len(newdamage)):
-            self.damage_percent.append(newdamage[i])
+        self.damage_percent.append(newdamage)
     def adddamagerise(self,skillname,newdmgrise):
         self.damage_rise[skillname] = newdmgrise
         
@@ -49,11 +45,9 @@ class Skill: # 6차 스킬 (오리진 등등)
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
         
     def addname(self, newname):
-        for i in range(len(newname)):
-            self.name.append(newname[i])   
+        self.name.append(newname)   
     def adddamagepercent(self,newdamage):
-        for i in range(len(newdamage)):
-            self.damage_percent.append(newdamage[i])
+        self.damage_percent.append(newdamage)
     def adddamagerise(self,skillname,newdmgrise):
         self.damage_rise[skillname] = newdmgrise
 ''' class CharacterV2는 효율과 관련된 모든 연산을 담아둔 class이다.'''        
@@ -69,19 +63,17 @@ class CharacterV2:
         self.ignoredef=ignoredef
     
     ''' 강화 코어 정보 추가 '''
-    def enhance_addname(self,*newname):
+    def enhance_addname_and_level(self,newname,level = 0):
         self.enhanceinfo.addname(newname)
-        for i in range(len(newname)):
-            self.current_enhance.append(1)
-    def enhance_adddamagepercent(self,*newdmgper):
+        self.current_enhance.append(level)
+    def enhance_adddamagepercent(self,newdmgper):
         self.enhanceinfo.adddamagepercent(newdmgper)
         
     '''마스터리 코어 정보 추가'''    
-    def mastery_addname(self,*newname):
+    def mastery_addname_and_level(self,newname,level=1):
         self.masteryinfo.addname(newname)
-        for i in range(len(newname)):
-            self.current_mastery.append(1)
-    def mastery_adddamagepercent(self,*newdmgper):
+        self.current_mastery.append(level)
+    def mastery_adddamagepercent(self,newdmgper):
         self.masteryinfo.adddamagepercent(newdmgper)
     def mastery_adddamagerise(self,skillname,firstleveldmg,increaseddmg):
         dmgrise = []
@@ -95,11 +87,10 @@ class CharacterV2:
         self.masteryinfo.adddamagerise(skillname,dmgrise)
     
     '''스킬 코어 정보 추가'''
-    def skill_addname(self,*newname):
+    def skill_addname_and_level(self,newname,level=1):
         self.skillinfo.addname(newname)
-        for i in range(len(newname)):
-            self.current_skill.append(1)
-    def skill_adddamagepercent(self,*newdmgper):
+        self.current_skill.append(level)
+    def skill_adddamagepercent(self,newdmgper):
         self.skillinfo.adddamagepercent(newdmgper)
     def skill_adddamagerise(self,skillname,firstleveldmg,increaseddmg):
         dmgrise = []

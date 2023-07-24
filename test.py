@@ -15,3 +15,7 @@ a = 0.00021209322779243542 * 100
 b = 1
 c = b / a
 print(c)
+
+a = 1
+print(a)
+print(int(a))
