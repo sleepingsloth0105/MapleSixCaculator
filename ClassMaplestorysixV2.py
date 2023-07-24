@@ -158,14 +158,15 @@ class CharacterV2:
             add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise[idx]-1) / self.enhanceinfo.sol_erda[idx]
             result.append(add)
             result_dic[add] = ['enhance',i,nextlevel,self.enhanceinfo.name[i]]
-            currentlevel = self.current_enhance[i]
+            currentlevel = self.current_enhance[i] + 1
             level10dmg = 1
             level10sol_erda = 0
-            while currentlevel % 10 != 0:
-                currentlevel += 1
+            while currentlevel % 10 != 1 and currentlevel <= 30:
                 level10idx = self.enhanceinfo.level.index(currentlevel)
                 level10dmg *= self.enhanceinfo.damage_rise[level10idx]
                 level10sol_erda += self.enhanceinfo.sol_erda[level10idx]
+                currentlevel += 1
+            currentlevel -= 1
             if level10sol_erda != 0:
                 add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
                 result.append(add10)
@@ -178,14 +179,15 @@ class CharacterV2:
             add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx]-1) / self.masteryinfo.sol_erda[idx]
             result.append(add)
             result_dic[add] = ['mastery',i,nextlevel,self.masteryinfo.name[i]]
-            currentlevel = self.current_mastery[i]
+            currentlevel = self.current_mastery[i] + 1
             level10dmg = 1
             level10sol_erda = 0
-            while currentlevel % 10 != 9 and currentlevel != 30:
-                currentlevel += 1
+            while currentlevel % 10 != 0 and currentlevel <= 30:
                 level10idx = self.masteryinfo.level.index(currentlevel)
                 level10dmg *= self.masteryinfo.damage_rise[self.masteryinfo.name[i]][level10idx]
                 level10sol_erda += self.masteryinfo.sol_erda[level10idx]
+                currentlevel += 1
+            currentlevel -= 1
             if level10sol_erda != 0:
                 add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
                 result.append(add10)
@@ -198,18 +200,19 @@ class CharacterV2:
             add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise[self.skillinfo.name[i]][idx]-1) / self.skillinfo.sol_erda[idx]
             result.append(add)
             result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i]]
-            currentlevel = self.current_skill[i]
+            currentlevel = self.current_skill[i] + 1
             level10dmg = 1
             level10sol_erda = 0
-            while currentlevel % 10 != 0:
-                currentlevel += 1
+            while currentlevel % 10 != 1 and currentlevel <= 30:
                 level10idx = self.skillinfo.level.index(currentlevel)
                 level10dmg *= self.skillinfo.damage_rise[self.skillinfo.name[i]][level10idx]
                 level10sol_erda += self.skillinfo.sol_erda[level10idx]
+                currentlevel += 1
+            currentlevel -= 1
             if level10sol_erda != 0:
                 add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
                 result.append(add10)
-                result_dic[add10] = ['skill', i, currentlevel, self.skillinfo.name[i]]            
+                result_dic[add10] = ['skill', i, currentlevel, self.skillinfo.name[i]]        
             
             
         maxresult = max(result)

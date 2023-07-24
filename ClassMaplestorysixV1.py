@@ -158,14 +158,15 @@ class CharacterV1:
             add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise[idx]-1) / self.enhanceinfo.piece[idx]
             result.append(add)
             result_dic[add] = ['enhance',i,nextlevel,self.enhanceinfo.name[i]]
-            currentlevel = self.current_enhance[i]
+            currentlevel = self.current_enhance[i] + 1
             level10dmg = 1
             level10piece = 0
-            while currentlevel % 10 != 0:
-                currentlevel += 1
+            while currentlevel % 10 != 1 and currentlevel <= 30:
                 level10idx = self.enhanceinfo.level.index(currentlevel)
                 level10dmg *= self.enhanceinfo.damage_rise[level10idx]
                 level10piece += self.enhanceinfo.piece[level10idx]
+                currentlevel += 1
+            currentlevel -= 1
             if level10piece != 0:
                 add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                 result.append(add10)
@@ -178,14 +179,15 @@ class CharacterV1:
             add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx]-1) / self.masteryinfo.piece[idx]
             result.append(add)
             result_dic[add] = ['mastery',i,nextlevel,self.masteryinfo.name[i]]
-            currentlevel = self.current_mastery[i]
+            currentlevel = self.current_mastery[i] + 1
             level10dmg = 1
             level10piece = 0
-            while currentlevel % 10 != 9 and currentlevel != 30:
-                currentlevel += 1
+            while currentlevel % 10 != 0 and currentlevel <= 30:
                 level10idx = self.masteryinfo.level.index(currentlevel)
                 level10dmg *= self.masteryinfo.damage_rise[self.masteryinfo.name[i]][level10idx]
                 level10piece += self.masteryinfo.piece[level10idx]
+                currentlevel += 1
+            currentlevel -= 1
             if level10piece != 0:
                 add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                 result.append(add10)
@@ -198,14 +200,15 @@ class CharacterV1:
             add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise[self.skillinfo.name[i]][idx]-1) / self.skillinfo.piece[idx]
             result.append(add)
             result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i]]
-            currentlevel = self.current_skill[i]
+            currentlevel = self.current_skill[i] + 1
             level10dmg = 1
             level10piece = 0
-            while currentlevel % 10 != 0:
-                currentlevel += 1
+            while currentlevel % 10 != 1 and currentlevel <= 30:
                 level10idx = self.skillinfo.level.index(currentlevel)
                 level10dmg *= self.skillinfo.damage_rise[self.skillinfo.name[i]][level10idx]
                 level10piece += self.skillinfo.piece[level10idx]
+                currentlevel += 1
+            currentlevel -= 1
             if level10piece != 0:
                 add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                 result.append(add10)

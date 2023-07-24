@@ -6,7 +6,7 @@ from ClassMaplestorysixV2 import *
 
 root = Tk()
 '''기본 '''
-root.title("6차 딜상승량 계산기")
+root.title("6차 스킬트리 효율성 계산기")
 root.geometry("1280x720+350+100")
 titlefont = font.Font(size=15, family="Malgun Gothic")
 generalfont = font.Font(size = 10, family="Malgun Gothic")

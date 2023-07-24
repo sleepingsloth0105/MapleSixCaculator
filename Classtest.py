@@ -1,7 +1,7 @@
 from ClassMaplestorysixV2 import *
 from ClassMaplestorysixV1 import *
 
-six = CharacterV2(500,95)
+six = CharacterV1(500,95)
 # six = Sixskill()
 
 six.enhance_addname('잔시' , '퀴버' , '레인' , '미라주')
@@ -26,8 +26,8 @@ six.skill_adddamagerise('오리진', 820800 , 27360)
 # six.calculate()
 six.printresult()
 # six.printresult_withnumber()
-
-six1 = CharacterV1(500,95)
+''''''
+six1 = CharacterV2(500,95)
 # six = Sixskill()
 
 six1.enhance_addname('잔시' , '퀴버' , '레인' , '미라주')
