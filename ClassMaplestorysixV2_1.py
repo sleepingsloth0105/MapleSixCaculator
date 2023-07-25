@@ -10,11 +10,11 @@ class Enhance: # 5차 강화 코어
     def __init__(self):
         self.name = []
         self.damage_percent = []
-        self.damage_rise = [ 111 / 100 , 112/111 , 113/112 , 114/113 , 115/114 , 116/115 , 117/116 , 118/117 , 119/118 , 125/119 , 126/125 , 
+        self.damage_rise = [ 111/100 , 112/111 , 113/112 , 114/113 , 115/114 , 116/115 , 117/116 , 118/117 , 119/118 , 125/119 , 126/125 , 
                         127/126 , 128/127 , 129/128 , 130/129 , 131/130 , 132/131 , 133/132 , 134/133 , 140/134 , 141/140, 
                         142/141, 143/142 , 144/143 , 145/144 , 146/145 , 147/146 , 148/147 , 149/148 , 160/149, 1 ]
-        # self.damage = [100 , 111 , 112 , 113 , 114 , 115 , 116 , 117 , 118 , 119 , 125 , 126 , 127 , 128 , 129 , 130 , 131 , 132 ,133 , 134 , 140 , 141 , 142 , 143 , 144 , 145 , 146 , 147 , 148 , 149 , 160]
-        self.piece = [ 75, 23,27,30,34,38,42,45,49,150,60,68,75,83,90,98,105,113,120,263,128,135,143,150,158,165,173,180,188,375,10]
+        #self.damage = [100 , 111 , 112 , 113 , 114 , 115 , 116 , 117 , 118 , 119 , 125 , 126 , 127 , 128 , 129 , 130 , 131 , 132 ,133 , 134 , 140 , 141 , 142 , 143 , 144 , 145 , 146 , 147 , 148 , 149 , 160]
+        self.sol_erda = [ 4,1,1,1,1,2,2,2,3,3,8,3,3,3,3,3,3,3,3,4,12,4,4,4,4,4,5,5,5,6,15,100]
         self.level= [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
     def addname(self, newname):
@@ -27,8 +27,8 @@ class Mastery: # 마스터리 코어
         self.name = []
         self.damage_percent = []
         self.damage_rise = {}
-        # self.damage = {}
-        self.piece = [15,18,20,23,25,28,30,33,100,40,45,50,55,60,65,70,75,80,175,85,90,95,100,105,110,115,120,125,250,10]
+        #self.damage = {}
+        self.sol_erda = [ 1,1,1,2,2,2,3,3,10,3,3,4,4,4,4,4,4,5,15,5,5,5,5,5,6,6,6,7,20,100] 
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
     def addname(self, newname):
@@ -46,7 +46,7 @@ class Skill: # 6차 스킬 (오리진 등등)
         self.damage_percent = []
         self.damage_rise = {}
         #self.damage = {}
-        self.piece = [ 30,35,40,45,50,55,60,65,200,80,90,100,110,120,130,140,150,160,350,170,180,190,200,210,220,230,240,250,500,10 ] 
+        self.sol_erda = [ 1,1,1,2,2,2,3,3,10,3,3,4,4,4,4,4,4,5,15,5,5,5,5,5,6,6,6,7,20,100 ] 
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
         
     def addname(self, newname):
@@ -57,8 +57,8 @@ class Skill: # 6차 스킬 (오리진 등등)
         self.damage_rise[skillname] = newdmgrise
     #def adddamage(self,skillname,first,incresing):
     #    self.damage[skillname] = [first , incresing]
-''' class CharacterV1는 효율과 관련된 모든 연산을 담아둔 class이다.'''        
-class CharacterV1:
+''' class CharacterV2_1는 효율과 관련된 모든 연산을 담아둔 class이다.'''        
+class CharacterV2_1:
     def __init__(self,bossdamage,ignoredef):
         self.current_enhance = []
         self.current_mastery = []
@@ -137,7 +137,7 @@ class CharacterV1:
         recentdmg = (1 - ( 3.8 * oldignoredef)) 
         newdmg = (1 - ( 3.8 * newignoredef)) 
         return newdmg / recentdmg
-    
+
     '''
     입력받은 딜지분을 5차 강화코어는 0레벨, 나머지 코어는 1레벨 기준 딜지분으로 변화시키는 함수
     각각의 강화코어의 현재 레벨을 확인하고 , 강화코어가 0레벨, 나머지 코어가 1레벨이 아닐 경우
@@ -153,7 +153,7 @@ class CharacterV1:
         for index in range(len(self.current_skill)):
             if self.current_skill[index] != 1:
                 self.updatedmgpercent('skill', index)
-                
+        
     
     기존 n레벨 딜지분을 새로운 초기레벨 기준 딜지분으로 바꿔주는 함수
     계산식은 다음과 같다.
@@ -198,10 +198,9 @@ class CharacterV1:
             per100dmg = per1dmg * 100
             otherskilldmg = per100dmg - recentdmg
             newdmgper = self.skillinfo.damage[self.skillinfo.name[index]][0] / (self.skillinfo.damage[self.skillinfo.name[index]][0] + otherskilldmg)
-            self.skillinfo.damage_percent[index] = newdmgper
-    '''       
-            
-                        
+            self.skillinfo.damage_percent[index] = newdmgper     
+    '''        
+                    
     ''' 
     1레벨 단위가장 효율적인 스킬 레벨업 계산
     각 강화 코어 , 마스터리 코어 , 스킬 코어에 대해
@@ -217,70 +216,67 @@ class CharacterV1:
         for i in range(len(self.current_enhance)):
             nextlevel = self.current_enhance[i] + 1
             idx = self.enhanceinfo.level.index(nextlevel)
-            add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise[idx]-1) / self.enhanceinfo.piece[idx]
+            add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise[idx]-1) / self.enhanceinfo.sol_erda[idx]
             result.append(add)
             result_dic[add] = ['enhance',i,nextlevel,self.enhanceinfo.name[i]]
             currentlevel = self.current_enhance[i] + 1
             level10dmg = 1
-            level10piece = 0
-            while currentlevel <= 30:
+            level10sol_erda = 0
+            while currentlevel % 10 != 1 and currentlevel <= 30:
                 level10idx = self.enhanceinfo.level.index(currentlevel)
                 level10dmg *= self.enhanceinfo.damage_rise[level10idx]
-                level10piece += self.enhanceinfo.piece[level10idx]
+                level10sol_erda += self.enhanceinfo.sol_erda[level10idx]
                 currentlevel += 1
                 if currentlevel % 10 == 1:
-                    add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10piece
+                    add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
                     result.append(add10)
                     result_dic[add10] = ['enhance', i, currentlevel-1, self.enhanceinfo.name[i]]
                     level10dmg = 1
-                    level10piece = 0
-                    break
+                    level10sol_erda = 0
             
             
         for i in range(len(self.current_mastery)):
             nextlevel = self.current_mastery[i] + 1
             idx = self.masteryinfo.level.index(nextlevel)
-            add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx]-1) / self.masteryinfo.piece[idx]
+            add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx]-1) / self.masteryinfo.sol_erda[idx]
             result.append(add)
             result_dic[add] = ['mastery',i,nextlevel,self.masteryinfo.name[i]]
             currentlevel = self.current_mastery[i] + 1
             level10dmg = 1
-            level10piece = 0
-            while currentlevel <= 30:
+            level10sol_erda = 0
+            while currentlevel % 10 != 0 and currentlevel <= 30:
                 level10idx = self.masteryinfo.level.index(currentlevel)
                 level10dmg *= self.masteryinfo.damage_rise[self.masteryinfo.name[i]][level10idx]
-                level10piece += self.masteryinfo.piece[level10idx]
+                level10sol_erda += self.masteryinfo.sol_erda[level10idx]
                 currentlevel += 1
                 if currentlevel % 10 == 0: 
-                    add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10piece
+                    add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
                     result.append(add10)
                     result_dic[add10] = ['mastery', i, currentlevel-1, self.masteryinfo.name[i]]
                     level10dmg = 1
-                    level10piece = 0
-                    break
+                    level10sol_erda = 0
                      
             
         for i in range(len(self.current_skill)):
             nextlevel = self.current_skill[i] + 1
             idx = self.skillinfo.level.index(nextlevel)
-            add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise[self.skillinfo.name[i]][idx]-1) / self.skillinfo.piece[idx]
+            add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise[self.skillinfo.name[i]][idx]-1) / self.skillinfo.sol_erda[idx]
             result.append(add)
             result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i]]
             currentlevel = self.current_skill[i] + 1
             level10dmg = 1
-            level10piece = 0
-            while currentlevel <= 30:
+            level10sol_erda = 0
+            while currentlevel % 10 != 1 and currentlevel <= 30:
                 level10idx = self.skillinfo.level.index(currentlevel)
                 level10dmg *= self.skillinfo.damage_rise[self.skillinfo.name[i]][level10idx]
-                level10piece += self.skillinfo.piece[level10idx]
+                level10sol_erda += self.skillinfo.sol_erda[level10idx]
                 currentlevel += 1
                 if currentlevel % 10 == 1:
-                    add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10piece
+                    add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
                     result.append(add10)
                     result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i]]     
                     level10dmg = 1
-                    level10piece = 0       
-                    break
+                    level10sol_erda = 0      
             
             
         maxresult = max(result)

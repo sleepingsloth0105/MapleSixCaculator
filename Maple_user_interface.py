@@ -2,11 +2,13 @@ from tkinter import *
 import tkinter.font as font
 import tkinter.ttk as ttk
 from ClassMaplestorysixV1 import *
+from ClassMaplestorysixV1_1 import *
 from ClassMaplestorysixV2 import *
+from ClassMaplestorysixV2_1 import *
 
 root = Tk()
 '''기본 '''
-root.title("6차 스킬트리 효율성 계산기")
+root.title("6차 스킬트리 효율성 계산기 1.3 version")
 root.geometry("1280x720+350+100")
 titlefont = font.Font(size=15, family="Malgun Gothic")
 generalfont = font.Font(size = 10, family="Malgun Gothic")
@@ -36,7 +38,7 @@ defignore = Label(root, text="방무 : " , font=generalfont)
 defignore.place ( x = 160 , y = 420)
 inputignoredef = Entry(root , width = 5)
 inputignoredef.place(x = 210 , y = 420)
-version_value = [ "1. 조각의 효율성 계산" , "2. 솔 에르다의 효율성 계산"]
+version_value = [ "1. 조각의 효율성 계산" ,"1.1 조각의 효율성 계산(장기)" ,"2. 솔 에르다의 효율성 계산", "2.1 솔 에르다의 효율성 계산(장기)"]
 version = ttk.Combobox(root , values= version_value,state="readonly" , width = 28 , font=generalfont)
 version.current(0)
 version.place(x = 40 , y = 450)
@@ -353,8 +355,12 @@ skillinputlevel6.place(x= 680 ,y = 160)
 def active():
     if version.get() == "1. 조각의 효율성 계산":
         mycharacter = CharacterV1(int(inputbossdamage.get()) , float(inputignoredef.get()))
-    if version.get() == "2. 솔 에르다의 효율성 계산":
+    elif version.get() == "1.1 조각의 효율성 계산(장기)":
+        mycharacter = CharacterV1_1(int(inputbossdamage.get()) , float(inputignoredef.get()))
+    elif version.get() == "2. 솔 에르다의 효율성 계산":
         mycharacter = CharacterV2(int(inputbossdamage.get()) , float(inputignoredef.get()))
+    elif version.get() == "2.1 솔 에르다의 효율성 계산(장기)":
+        mycharacter = CharacterV2_1(int(inputbossdamage.get()) , float(inputignoredef.get()))
     
     if enhanceinputname1.get() != "":
         if enhanceinputlevel1.get() != "":

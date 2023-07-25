@@ -57,8 +57,8 @@ class Skill: # 6차 스킬 (오리진 등등)
         self.damage_rise[skillname] = newdmgrise
     #def adddamage(self,skillname,first,incresing):
     #    self.damage[skillname] = [first , incresing]
-''' class CharacterV1는 효율과 관련된 모든 연산을 담아둔 class이다.'''        
-class CharacterV1:
+''' class CharacterV1_1는 효율과 관련된 모든 연산을 담아둔 class이다.'''        
+class CharacterV1_1:
     def __init__(self,bossdamage,ignoredef):
         self.current_enhance = []
         self.current_mastery = []
@@ -234,7 +234,6 @@ class CharacterV1:
                     result_dic[add10] = ['enhance', i, currentlevel-1, self.enhanceinfo.name[i]]
                     level10dmg = 1
                     level10piece = 0
-                    break
             
             
         for i in range(len(self.current_mastery)):
@@ -257,7 +256,6 @@ class CharacterV1:
                     result_dic[add10] = ['mastery', i, currentlevel-1, self.masteryinfo.name[i]]
                     level10dmg = 1
                     level10piece = 0
-                    break
                      
             
         for i in range(len(self.current_skill)):
@@ -280,7 +278,6 @@ class CharacterV1:
                     result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i]]     
                     level10dmg = 1
                     level10piece = 0       
-                    break
             
             
         maxresult = max(result)
