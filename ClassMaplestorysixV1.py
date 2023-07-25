@@ -13,6 +13,7 @@ class Enhance: # 5차 강화 코어
         self.damage_rise = [ 111 / 100 , 112/111 , 113/112 , 114/113 , 115/114 , 116/115 , 117/116 , 118/117 , 119/118 , 125/119 , 126/125 , 
                         127/126 , 128/127 , 129/128 , 130/129 , 131/130 , 132/131 , 133/132 , 134/133 , 140/134 , 141/140, 
                         142/141, 143/142 , 144/143 , 145/144 , 146/145 , 147/146 , 148/147 , 149/148 , 160/149, 1 ]
+        self.damage = [100 , 111 , 112 , 113 , 114 , 115 , 116 , 117 , 118 , 119 , 125 , 126 , 127 , 128 , 129 , 130 , 131 , 132 ,133 , 134 , 140 , 141 , 142 , 143 , 144 , 145 , 146 , 147 , 148 , 149 , 160]
         self.piece = [ 75, 23,27,30,34,38,42,45,49,150,60,68,75,83,90,98,105,113,120,263,128,135,143,150,158,165,173,180,188,375,10]
         self.level= [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
@@ -26,6 +27,7 @@ class Mastery: # 마스터리 코어
         self.name = []
         self.damage_percent = []
         self.damage_rise = {}
+        self.damage = {}
         self.piece = [15,18,20,23,25,28,30,33,100,40,45,50,55,60,65,70,75,80,175,85,90,95,100,105,110,115,120,125,250,10]
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
@@ -35,12 +37,15 @@ class Mastery: # 마스터리 코어
         self.damage_percent.append(newdamage)
     def adddamagerise(self,skillname,newdmgrise):
         self.damage_rise[skillname] = newdmgrise
+    def adddamage(self,skillname,first,incresing):
+        self.damage[skillname] = [first , incresing]
         
 class Skill: # 6차 스킬 (오리진 등등)
     def __init__(self):
         self.name = []
         self.damage_percent = []
         self.damage_rise = {}
+        self.damage = {}
         self.piece = [ 30,35,40,45,50,55,60,65,200,80,90,100,110,120,130,140,150,160,350,170,180,190,200,210,220,230,240,250,500,10 ] 
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
         
@@ -50,6 +55,8 @@ class Skill: # 6차 스킬 (오리진 등등)
         self.damage_percent.append(newdamage)
     def adddamagerise(self,skillname,newdmgrise):
         self.damage_rise[skillname] = newdmgrise
+    def adddamage(self,skillname,first,incresing):
+        self.damage[skillname] = [first , incresing]
 ''' class CharacterV1는 효율과 관련된 모든 연산을 담아둔 class이다.'''        
 class CharacterV1:
     def __init__(self,bossdamage,ignoredef):
@@ -85,6 +92,7 @@ class CharacterV1:
             old = new
         dmgrise.append(1)
         self.masteryinfo.adddamagerise(skillname,dmgrise)
+        self.masteryinfo.adddamage(skillname, firstleveldmg , increaseddmg)
     
     '''스킬 코어 정보 추가'''
     def skill_addname_and_level(self,newname,level=1):
@@ -102,6 +110,7 @@ class CharacterV1:
             old = new
         dmgrise.append(1)
         self.skillinfo.adddamagerise(skillname,dmgrise)
+        self.skillinfo.adddamage(skillname,firstleveldmg,increaseddmg)
         self.skillinfo.damage_rise[skillname][8] = self.skillinfo.damage_rise[skillname][8] * self.calcdef20()
         self.skillinfo.damage_rise[skillname][18] = self.skillinfo.damage_rise[skillname][18] * self.calcboss20()
         self.skillinfo.damage_rise[skillname][28] =  self.skillinfo.damage_rise[skillname][28] * self.calcboss50() * self.calcdef50()
@@ -129,8 +138,70 @@ class CharacterV1:
         newdmg = (1 - ( 3.8 * newignoredef)) 
         return newdmg / recentdmg
     
-        
-             
+    '''
+    입력받은 딜지분을 5차 강화코어는 0레벨, 나머지 코어는 1레벨 기준 딜지분으로 변화시키는 함수
+    각각의 강화코어의 현재 레벨을 확인하고 , 강화코어가 0레벨, 나머지 코어가 1레벨이 아닐 경우
+    updatedmgpercent(유형, 인덱스)를 실행해 기존 딜지분을 새로운 딜지분으로 변경
+    '''   
+    def dmgpercheck(self):
+        for index in range(len(self.current_enhance)):
+            if self.current_enhance[index] != 0:
+                self.updatedmgpercent('enhance', index)
+        for index in range(len(self.current_mastery)):
+            if self.current_mastery[index] != 1:
+                self.updatedmgpercent('mastery', index)
+        for index in range(len(self.current_skill)):
+            if self.current_skill[index] != 1:
+                self.updatedmgpercent('skill', index)
+                
+    '''
+    기존 n레벨 딜지분을 새로운 초기레벨 기준 딜지분으로 바꿔주는 함수
+    계산식은 다음과 같다.
+    1) 기존의 데미지 / 딜지분을 해서 딜지분의 1%에 해당하는 값을 구한다.
+    ex) 데미지가 100이고 딜지분이 10%일 경우 딜지분의 1%에 해당하는 값은 100 / 10 = 10이다
+    2) 1의 결과에 100을 곱해 100% 딜지분의 값을 구한다.
+    ex) 10 * 100 = 1000 , 전체 딜은 1000으로 볼 수 있다.
+    3) 전체 데미지 - 해당 스킬의 데미지를 통해 해당 스킬을 제외한 나머지 스킬의 데미지를 구한다.
+    ex) 1000 - 100 = 900
+    4) 스킬의 초기 데미지 / 나머지 스킬의 데미지 + 초기 데미지를 계산해 새로운 딜지분을 구한다.
+    ex) 초기 데미지를 95라 하면 , 95 / 95+900 = 0.0954773867 = 새로운 딜지분
+    '''
+    def updatedmgpercent(self, coretype , index):
+        if coretype == 'enhance':
+            olddmgper = self.enhanceinfo.damage_percent[index]
+            recentdmg = self.enhanceinfo.damage[self.current_enhance[index]]
+            per1dmg = recentdmg / ( olddmgper * 100)
+            per100dmg = per1dmg * 100
+            otherskilldmg = per100dmg - recentdmg
+            newdmgper = self.enhanceinfo.damage[0] / (self.enhanceinfo.damage[0] + otherskilldmg)
+            self.enhanceinfo.damage_percent[index] = newdmgper
+        elif coretype == 'mastery':
+            olddmgper = self.masteryinfo.damage_percent[index]
+            count = 0
+            recentdmg = self.masteryinfo.damage[self.masteryinfo.name[index]][0]
+            while count != self.current_mastery[index]:
+                recentdmg += self.masteryinfo.damage[self.masteryinfo.name[index]][1]
+                count += 1
+            per1dmg = recentdmg / ( olddmgper * 100)
+            per100dmg = per1dmg * 100
+            otherskilldmg = per100dmg - recentdmg
+            newdmgper = self.masteryinfo.damage[self.masteryinfo.name[index]][0] / (self.masteryinfo.damage[self.masteryinfo.name[index]][0] + otherskilldmg)
+            self.masteryinfo.damage_percent[index] = newdmgper
+        else:
+            olddmgper = self.skillinfo.damage_percent[index]
+            count = 0
+            recentdmg = self.skillinfo.damage[self.skillinfo.name[index]][0]
+            while count != self.current_skill[index]:
+                recentdmg += self.skillinfo.damage[self.skillinfo.name[index]][1]
+                count += 1
+            per1dmg = recentdmg / ( olddmgper * 100)
+            per100dmg = per1dmg * 100
+            otherskilldmg = per100dmg - recentdmg
+            newdmgper = self.skillinfo.damage[self.skillinfo.name[index]][0] / (self.skillinfo.damage[self.skillinfo.name[index]][0] + otherskilldmg)
+            self.skillinfo.damage_percent[index] = newdmgper
+            
+            
+                        
     ''' 
     1레벨 단위가장 효율적인 스킬 레벨업 계산
     각 강화 코어 , 마스터리 코어 , 스킬 코어에 대해
@@ -239,6 +310,7 @@ class CharacterV1:
     이후 record를 리턴값으로 반환한다.
     ''' 
     def levelup_max(self):
+        self.dmgpercheck()
         record = []
         old = "시작"
         num = 0
