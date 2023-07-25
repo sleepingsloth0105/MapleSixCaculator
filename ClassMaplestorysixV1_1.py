@@ -219,7 +219,7 @@ class CharacterV1_1:
             idx = self.enhanceinfo.level.index(nextlevel)
             add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise[idx]-1) / self.enhanceinfo.piece[idx]
             result.append(add)
-            result_dic[add] = ['enhance',i,nextlevel,self.enhanceinfo.name[i]]
+            result_dic[add] = ['enhance',i,nextlevel,self.enhanceinfo.name[i], add , self.enhanceinfo.piece[idx] ]
             currentlevel = self.current_enhance[i] + 1
             level10dmg = 1
             level10piece = 0
@@ -231,7 +231,7 @@ class CharacterV1_1:
                 if currentlevel % 10 == 1:
                     add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                     result.append(add10)
-                    result_dic[add10] = ['enhance', i, currentlevel-1, self.enhanceinfo.name[i]]
+                    result_dic[add10] = ['enhance', i, currentlevel-1, self.enhanceinfo.name[i] ,add10, level10piece]
                     level10dmg = 1
                     level10piece = 0
             
@@ -241,7 +241,7 @@ class CharacterV1_1:
             idx = self.masteryinfo.level.index(nextlevel)
             add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx]-1) / self.masteryinfo.piece[idx]
             result.append(add)
-            result_dic[add] = ['mastery',i,nextlevel,self.masteryinfo.name[i]]
+            result_dic[add] = ['mastery',i,nextlevel,self.masteryinfo.name[i] ,add , self.masteryinfo.piece[idx] ]
             currentlevel = self.current_mastery[i] + 1
             level10dmg = 1
             level10piece = 0
@@ -253,7 +253,7 @@ class CharacterV1_1:
                 if currentlevel % 10 == 0: 
                     add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                     result.append(add10)
-                    result_dic[add10] = ['mastery', i, currentlevel-1, self.masteryinfo.name[i]]
+                    result_dic[add10] = ['mastery', i, currentlevel-1, self.masteryinfo.name[i],add10, level10piece]
                     level10dmg = 1
                     level10piece = 0
                      
@@ -263,7 +263,7 @@ class CharacterV1_1:
             idx = self.skillinfo.level.index(nextlevel)
             add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise[self.skillinfo.name[i]][idx]-1) / self.skillinfo.piece[idx]
             result.append(add)
-            result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i]]
+            result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i],add , self.skillinfo.piece[idx] ]
             currentlevel = self.current_skill[i] + 1
             level10dmg = 1
             level10piece = 0
@@ -275,7 +275,7 @@ class CharacterV1_1:
                 if currentlevel % 10 == 1:
                     add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                     result.append(add10)
-                    result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i]]     
+                    result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i],add10, level10piece]       
                     level10dmg = 1
                     level10piece = 0       
             
@@ -318,24 +318,49 @@ class CharacterV1_1:
         oldskillname = "시작"
         arrivelevel = 0
         startlevel = 0
+        dmgrise = 1
+        sumofpiece = 0
         while self.calculate() != 0:
             calcinfo = self.calculate()
             newskillname = calcinfo[3]
             if newskillname != oldskillname:
-                record.append([oldskillname , startlevel , arrivelevel])
+                record.append([oldskillname , startlevel , arrivelevel , dmgrise , sumofpiece])
                 oldskillname = newskillname
+                dmgrise = 1
+                sumofpiece = 0
+                arrivelevel = calcinfo[2]
                 if calcinfo[0] == 'enhance':
-                    startlevel = self.current_enhance[calcinfo[1]]         
+                    startlevel = self.current_enhance[calcinfo[1]]
+                    dmg = (calcinfo[4] * calcinfo[5] / self.enhanceinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofpiece += calcinfo[5]          
                 elif calcinfo[0] == 'mastery':
-                    startlevel = self.current_mastery[calcinfo[1]]  
+                    startlevel = self.current_mastery[calcinfo[1]]
+                    dmg = (calcinfo[4] * calcinfo[5] / self.masteryinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofpiece += calcinfo[5]  
                 else:
-                    startlevel = self.current_skill[calcinfo[1]]             
-                arrivelevel = calcinfo[2]     
+                    startlevel = self.current_skill[calcinfo[1]]
+                    dmg = (calcinfo[4] * calcinfo[5] / self.skillinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofpiece += calcinfo[5]                               
             else:
                 arrivelevel = calcinfo[2]
+                if calcinfo[0] == 'enhance':
+                    dmg = (calcinfo[4] * calcinfo[5] / self.enhanceinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofpiece += calcinfo[5]      
+                elif calcinfo[0] == 'mastery':
+                    dmg = (calcinfo[4] * calcinfo[5] / self.masteryinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofpiece += calcinfo[5]   
+                else:
+                    dmg = (calcinfo[4] * calcinfo[5] / self.skillinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofpiece += calcinfo[5]    
             self.levelup(calcinfo)
             if self.calculate() == 0:
-                record.append([oldskillname, startlevel,arrivelevel])
+                record.append([oldskillname , startlevel , arrivelevel , dmgrise , sumofpiece])
         return record
    
     '''
@@ -346,11 +371,47 @@ class CharacterV1_1:
     def printresult(self):
         result = self.levelup_max()
         recentdir = os.path.dirname(os.path.realpath(__file__))
-        usedir = recentdir + "/스킬트리(조각).txt"
+        usedir = recentdir + "/스킬트리(조각,장기).txt"
+        usedir_detail = recentdir + "/스킬트리(조각,장기)_세부내용.txt"
         resultfile = open(usedir, 'w')
-        for i in range(len(result)):
-            data = "스킬 : " +  result[i][0]  + " / 레벨 : "  + str(result[i][1]) + " -> " + str(result[i][2])
+        resultfile_detail = open(usedir_detail, 'w')
+        self.addmaxnamelen()
+        for i in range(1,len(result)):
+            skillname = self.nameformat(result[i][0])
+            startlevel = str(format(result[i][1] , "<2"))
+            endlevel = str(format(result[i][2] , "<2"))
+            data = "스킬 : " +  skillname  + " ｜ 레벨 : "  + startlevel + " -> " + endlevel
+            if result[i][0] in self.enhanceinfo.name:
+                finaldmg = (result[i][3]-1) * 100 * self.enhanceinfo.damage_percent[self.enhanceinfo.name.index(result[i][0])]
+            elif result[i][0] in self.masteryinfo.name:
+                finaldmg = (result[i][3]-1) * 100 * self.masteryinfo.damage_percent[self.masteryinfo.name.index(result[i][0])]
+            else:
+                finaldmg = (result[i][3]-1) * 100 * self.skillinfo.damage_percent[self.skillinfo.name.index(result[i][0])]
+            finaldmgstr = str(format(round(finaldmg,10) , "<12"))
+            peicestr = str(format(result[i][4] ,"<4" ))
+            peiceperdmgstr = str(format(round(result[i][4] / finaldmg,10) , "<12"))
+            data_detail = "스킬 : " +  skillname  + " ｜ 레벨 : "  + startlevel + " -> " + endlevel + " ｜ 최종뎀 증가율 : " + finaldmgstr + ' % ｜ 필요 조각 개수 : ' + peicestr + " ｜ 최종뎀 1%에 필요한 조각 개수 : " + peiceperdmgstr
             print(data)
+            print(data_detail)
             resultfile.write(data)
             resultfile.write('\n')
+            resultfile_detail.write(data_detail)
+            resultfile_detail.write('\n')
         resultfile.close()
+        resultfile_detail.close()
+    
+    def addmaxnamelen(self):
+        namelenlist = []
+        for i in self.enhanceinfo.name:
+            namelenlist.append(len(i))
+        for i in self.masteryinfo.name:
+            namelenlist.append(len(i))
+        for i in self.skillinfo.name:
+            namelenlist.append(len(i))
+        self.maxnamelen = max(namelenlist)
+            
+    def nameformat(self,name):
+        count = self.maxnamelen - len(name)
+        for i in range(count):
+            name += "  "
+        return name

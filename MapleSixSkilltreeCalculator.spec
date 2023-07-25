@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(
-    ['Maple_user_interface.py'],
+    ['MapleSixSkilltreeCalculator.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -26,7 +26,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='Maple_user_interface',
+    name='MapleSixSkilltreeCalculator',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -46,5 +46,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='Maple_user_interface',
+    name='MapleSixSkilltreeCalculator',
 )

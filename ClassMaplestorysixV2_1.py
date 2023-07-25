@@ -4,7 +4,7 @@
 '''
 import os
 '''Class Enhance , Mastery , Skill은 각각 강화코어, 마스터리 코어 , 6차스킬코어의
-이름 , 딜지분 , 딜 상승률 , 10레벨 단위 딜 상승률 , 레벨 당 소각 소모량 , 10레벨 당 조각 소모량 정보를 가지고 있다.
+이름 , 딜지분 , 딜 상승률 , 10레벨 단위 딜 상승률 , 레벨 당 소각 소모량 , 10레벨 당 솔 에르다 소모량 정보를 가지고 있다.
 '''
 class Enhance: # 5차 강화 코어
     def __init__(self):
@@ -14,7 +14,7 @@ class Enhance: # 5차 강화 코어
                         127/126 , 128/127 , 129/128 , 130/129 , 131/130 , 132/131 , 133/132 , 134/133 , 140/134 , 141/140, 
                         142/141, 143/142 , 144/143 , 145/144 , 146/145 , 147/146 , 148/147 , 149/148 , 160/149, 1 ]
         #self.damage = [100 , 111 , 112 , 113 , 114 , 115 , 116 , 117 , 118 , 119 , 125 , 126 , 127 , 128 , 129 , 130 , 131 , 132 ,133 , 134 , 140 , 141 , 142 , 143 , 144 , 145 , 146 , 147 , 148 , 149 , 160]
-        self.sol_erda = [ 4,1,1,1,1,2,2,2,3,3,8,3,3,3,3,3,3,3,3,4,12,4,4,4,4,4,5,5,5,6,15,100]
+        self.solerda = [ 4,1,1,1,1,2,2,2,3,3,8,3,3,3,3,3,3,3,3,4,12,4,4,4,4,4,5,5,5,6,15,100]
         self.level= [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
     def addname(self, newname):
@@ -28,7 +28,7 @@ class Mastery: # 마스터리 코어
         self.damage_percent = []
         self.damage_rise = {}
         #self.damage = {}
-        self.sol_erda = [ 1,1,1,2,2,2,3,3,10,3,3,4,4,4,4,4,4,5,15,5,5,5,5,5,6,6,6,7,20,100] 
+        self.solerda = [ 1,1,1,2,2,2,3,3,10,3,3,4,4,4,4,4,4,5,15,5,5,5,5,5,6,6,6,7,20,100] 
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
     def addname(self, newname):
@@ -46,7 +46,7 @@ class Skill: # 6차 스킬 (오리진 등등)
         self.damage_percent = []
         self.damage_rise = {}
         #self.damage = {}
-        self.sol_erda = [ 1,1,1,2,2,2,3,3,10,3,3,4,4,4,4,4,4,5,15,5,5,5,5,5,6,6,6,7,20,100 ] 
+        self.solerda = [ 1,1,1,2,2,2,3,3,10,3,3,4,4,4,4,4,4,5,15,5,5,5,5,5,6,6,6,7,20,100 ] 
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
         
     def addname(self, newname):
@@ -205,8 +205,8 @@ class CharacterV2_1:
     1레벨 단위가장 효율적인 스킬 레벨업 계산
     각 강화 코어 , 마스터리 코어 , 스킬 코어에 대해
     특정 스킬의 현재 레벨을 탐색하고 그 레벨에서 레벨업 했을 때의 딜 상승률을 찾아
-    (해당 스킬의 딜지분) * (딜 상승률) / (레벨업에 필요한 조각) 연산을 시행해 조각 1개당 딜상승률을 찾은 뒤
-    result에 조각당 딜 상승률을 저장하고 result_dic에 코어의 유형 , index , 레벨업한 레벨 , 스킬 이름을 저장한다.
+    (해당 스킬의 딜지분) * (딜 상승률) / (레벨업에 필요한 솔 에르다) 연산을 시행해 솔 에르다 1개당 딜상승률을 찾은 뒤
+    result에 솔 에르다당 딜 상승률을 저장하고 result_dic에 코어의 유형 , index , 레벨업한 레벨 , 스킬 이름을 저장한다.
     그리고 result에 저장된 값과 사전에 계산된 10레벨 기준으로 계산된 효율을 모두 합해 최고의 효율을 찾은 뒤
     그 효율에 관련된 result_dic에 담긴 정보를 반환한다.
     '''    
@@ -216,67 +216,67 @@ class CharacterV2_1:
         for i in range(len(self.current_enhance)):
             nextlevel = self.current_enhance[i] + 1
             idx = self.enhanceinfo.level.index(nextlevel)
-            add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise[idx]-1) / self.enhanceinfo.sol_erda[idx]
+            add = self.enhanceinfo.damage_percent[i] * (self.enhanceinfo.damage_rise[idx]-1) / self.enhanceinfo.solerda[idx]
             result.append(add)
-            result_dic[add] = ['enhance',i,nextlevel,self.enhanceinfo.name[i]]
+            result_dic[add] = ['enhance',i,nextlevel,self.enhanceinfo.name[i], add , self.enhanceinfo.solerda[idx] ]
             currentlevel = self.current_enhance[i] + 1
             level10dmg = 1
-            level10sol_erda = 0
-            while currentlevel % 10 != 1 and currentlevel <= 30:
+            level10solerda = 0
+            while currentlevel <= 30:
                 level10idx = self.enhanceinfo.level.index(currentlevel)
                 level10dmg *= self.enhanceinfo.damage_rise[level10idx]
-                level10sol_erda += self.enhanceinfo.sol_erda[level10idx]
+                level10solerda += self.enhanceinfo.solerda[level10idx]
                 currentlevel += 1
                 if currentlevel % 10 == 1:
-                    add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
+                    add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10solerda
                     result.append(add10)
-                    result_dic[add10] = ['enhance', i, currentlevel-1, self.enhanceinfo.name[i]]
+                    result_dic[add10] = ['enhance', i, currentlevel-1, self.enhanceinfo.name[i] ,add10, level10solerda]
                     level10dmg = 1
-                    level10sol_erda = 0
+                    level10solerda = 0
             
             
         for i in range(len(self.current_mastery)):
             nextlevel = self.current_mastery[i] + 1
             idx = self.masteryinfo.level.index(nextlevel)
-            add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx]-1) / self.masteryinfo.sol_erda[idx]
+            add = self.masteryinfo.damage_percent[i] * (self.masteryinfo.damage_rise[self.masteryinfo.name[i]][idx]-1) / self.masteryinfo.solerda[idx]
             result.append(add)
-            result_dic[add] = ['mastery',i,nextlevel,self.masteryinfo.name[i]]
+            result_dic[add] = ['mastery',i,nextlevel,self.masteryinfo.name[i] ,add , self.masteryinfo.solerda[idx] ]
             currentlevel = self.current_mastery[i] + 1
             level10dmg = 1
-            level10sol_erda = 0
-            while currentlevel % 10 != 0 and currentlevel <= 30:
+            level10solerda = 0
+            while currentlevel <= 30:
                 level10idx = self.masteryinfo.level.index(currentlevel)
                 level10dmg *= self.masteryinfo.damage_rise[self.masteryinfo.name[i]][level10idx]
-                level10sol_erda += self.masteryinfo.sol_erda[level10idx]
+                level10solerda += self.masteryinfo.solerda[level10idx]
                 currentlevel += 1
                 if currentlevel % 10 == 0: 
-                    add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
+                    add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10solerda
                     result.append(add10)
-                    result_dic[add10] = ['mastery', i, currentlevel-1, self.masteryinfo.name[i]]
+                    result_dic[add10] = ['mastery', i, currentlevel-1, self.masteryinfo.name[i],add10, level10solerda]
                     level10dmg = 1
-                    level10sol_erda = 0
+                    level10solerda = 0
                      
             
         for i in range(len(self.current_skill)):
             nextlevel = self.current_skill[i] + 1
             idx = self.skillinfo.level.index(nextlevel)
-            add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise[self.skillinfo.name[i]][idx]-1) / self.skillinfo.sol_erda[idx]
+            add = self.skillinfo.damage_percent[i] * (self.skillinfo.damage_rise[self.skillinfo.name[i]][idx]-1) / self.skillinfo.solerda[idx]
             result.append(add)
-            result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i]]
+            result_dic[add] = ['skill',i,nextlevel,self.skillinfo.name[i],add , self.skillinfo.solerda[idx] ]
             currentlevel = self.current_skill[i] + 1
             level10dmg = 1
-            level10sol_erda = 0
-            while currentlevel % 10 != 1 and currentlevel <= 30:
+            level10solerda = 0
+            while currentlevel <= 30:
                 level10idx = self.skillinfo.level.index(currentlevel)
                 level10dmg *= self.skillinfo.damage_rise[self.skillinfo.name[i]][level10idx]
-                level10sol_erda += self.skillinfo.sol_erda[level10idx]
+                level10solerda += self.skillinfo.solerda[level10idx]
                 currentlevel += 1
                 if currentlevel % 10 == 1:
-                    add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10sol_erda
+                    add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10solerda
                     result.append(add10)
-                    result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i]]     
+                    result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i],add10, level10solerda]       
                     level10dmg = 1
-                    level10sol_erda = 0      
+                    level10solerda = 0       
             
             
         maxresult = max(result)
@@ -317,24 +317,49 @@ class CharacterV2_1:
         oldskillname = "시작"
         arrivelevel = 0
         startlevel = 0
+        dmgrise = 1
+        sumofsolerda = 0
         while self.calculate() != 0:
             calcinfo = self.calculate()
             newskillname = calcinfo[3]
             if newskillname != oldskillname:
-                record.append([oldskillname , startlevel , arrivelevel])
+                record.append([oldskillname , startlevel , arrivelevel , dmgrise , sumofsolerda])
                 oldskillname = newskillname
+                dmgrise = 1
+                sumofsolerda = 0
+                arrivelevel = calcinfo[2]
                 if calcinfo[0] == 'enhance':
-                    startlevel = self.current_enhance[calcinfo[1]]         
+                    startlevel = self.current_enhance[calcinfo[1]]
+                    dmg = (calcinfo[4] * calcinfo[5] / self.enhanceinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofsolerda += calcinfo[5]          
                 elif calcinfo[0] == 'mastery':
-                    startlevel = self.current_mastery[calcinfo[1]]  
+                    startlevel = self.current_mastery[calcinfo[1]]
+                    dmg = (calcinfo[4] * calcinfo[5] / self.masteryinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofsolerda += calcinfo[5]  
                 else:
-                    startlevel = self.current_skill[calcinfo[1]]             
-                arrivelevel = calcinfo[2]     
+                    startlevel = self.current_skill[calcinfo[1]]
+                    dmg = (calcinfo[4] * calcinfo[5] / self.skillinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofsolerda += calcinfo[5]                               
             else:
                 arrivelevel = calcinfo[2]
+                if calcinfo[0] == 'enhance':
+                    dmg = (calcinfo[4] * calcinfo[5] / self.enhanceinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofsolerda += calcinfo[5]      
+                elif calcinfo[0] == 'mastery':
+                    dmg = (calcinfo[4] * calcinfo[5] / self.masteryinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofsolerda += calcinfo[5]   
+                else:
+                    dmg = (calcinfo[4] * calcinfo[5] / self.skillinfo.damage_percent[calcinfo[1]]) + 1
+                    dmgrise *= dmg
+                    sumofsolerda += calcinfo[5]    
             self.levelup(calcinfo)
             if self.calculate() == 0:
-                record.append([oldskillname, startlevel,arrivelevel])
+                record.append([oldskillname , startlevel , arrivelevel , dmgrise , sumofsolerda])
         return record
    
     '''
@@ -345,11 +370,47 @@ class CharacterV2_1:
     def printresult(self):
         result = self.levelup_max()
         recentdir = os.path.dirname(os.path.realpath(__file__))
-        usedir = recentdir + "/스킬트리(조각).txt"
+        usedir = recentdir + "/스킬트리(솔 에르다,장기).txt"
+        usedir_detail = recentdir + "/스킬트리(솔 에르다,장기)_세부내용.txt"
         resultfile = open(usedir, 'w')
-        for i in range(len(result)):
-            data = "스킬 : " +  result[i][0]  + " / 레벨 : "  + str(result[i][1]) + " -> " + str(result[i][2])
+        resultfile_detail = open(usedir_detail, 'w')
+        self.addmaxnamelen()
+        for i in range(1,len(result)):
+            skillname = self.nameformat(result[i][0])
+            startlevel = str(format(result[i][1] , "<2"))
+            endlevel = str(format(result[i][2] , "<2"))
+            data = "스킬 : " +  skillname  + " ｜ 레벨 : "  + startlevel + " -> " + endlevel
+            if result[i][0] in self.enhanceinfo.name:
+                finaldmg = (result[i][3]-1) * 100 * self.enhanceinfo.damage_percent[self.enhanceinfo.name.index(result[i][0])]
+            elif result[i][0] in self.masteryinfo.name:
+                finaldmg = (result[i][3]-1) * 100 * self.masteryinfo.damage_percent[self.masteryinfo.name.index(result[i][0])]
+            else:
+                finaldmg = (result[i][3]-1) * 100 * self.skillinfo.damage_percent[self.skillinfo.name.index(result[i][0])]
+            finaldmgstr = str(format(round(finaldmg,10) , "<12"))
+            solerdastr = str(format(result[i][4] ,"<4" ))
+            solerdaperdmgstr = str(format(round(result[i][4] / finaldmg,10) , "<12"))
+            data_detail = "스킬 : " +  skillname  + " ｜ 레벨 : "  + startlevel + " -> " + endlevel + " ｜ 최종뎀 증가율 : " + finaldmgstr + ' % ｜ 필요 솔 에르다 개수 : ' + solerdastr + " ｜ 최종뎀 1%에 필요한 솔 에르다 개수 : " + solerdaperdmgstr
             print(data)
+            print(data_detail)
             resultfile.write(data)
             resultfile.write('\n')
+            resultfile_detail.write(data_detail)
+            resultfile_detail.write('\n')
         resultfile.close()
+        resultfile_detail.close()
+    
+    def addmaxnamelen(self):
+        namelenlist = []
+        for i in self.enhanceinfo.name:
+            namelenlist.append(len(i))
+        for i in self.masteryinfo.name:
+            namelenlist.append(len(i))
+        for i in self.skillinfo.name:
+            namelenlist.append(len(i))
+        self.maxnamelen = max(namelenlist)
+            
+    def nameformat(self,name):
+        count = self.maxnamelen - len(name)
+        for i in range(count):
+            name += "  "
+        return name

@@ -1,4 +1,4 @@
-('D:\\python_project\\hobby\\MapleSixCalculator\\build\\Maple_user_interface\\PYZ-00.pyz',
+('D:\\python_project\\hobby\\MapleSixCalculator\\build\\MapleSixSkilltreeCalculator\\PYZ-00.pyz',
  [('ClassMaplestorysixV1',
    'D:\\python_project\\hobby\\MapleSixCalculator\\ClassMaplestorysixV1.py',
    'PYMODULE'),

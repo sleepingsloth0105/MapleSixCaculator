@@ -8,7 +8,7 @@ from ClassMaplestorysixV2_1 import *
 
 root = Tk()
 '''기본 '''
-root.title("6차 스킬트리 효율성 계산기 1.3 version")
+root.title("6차 스킬트리 효율성 계산기 1.3.1 version")
 root.geometry("1280x720+350+100")
 titlefont = font.Font(size=15, family="Malgun Gothic")
 generalfont = font.Font(size = 10, family="Malgun Gothic")
@@ -19,7 +19,7 @@ frame_explane = LabelFrame(root, text="6차 스킬트리 계산기" ,bd = 0,font
 frame_explane.place(x=20 , y = 30, width = 260, height= 400)
 explanation1 = Label(frame_explane , text = "\n사용방법",font=generalfont)
 explanation1.pack()
-explanation2 = Label(frame_explane , text = "1. 현재 내 보총뎀과 방무를 입력하고 \n 하단의 드래그박스를 이용해 \n 효율 계산을 원하는 재화 선택",font=generalfont)
+explanation2 = Label(frame_explane , text = "1. 보총뎀과 방무를 입력하고 \n 하단의 드래그박스를 이용해 \n 효율 계산을 원하는 재화 선택",font=generalfont)
 explanation2.pack()
 explanation3 = Label(frame_explane , text = "2. 스킬 관련 정보를 각 칸에 입력 \n 주의 : 스킬 데미지는 \"0\"레벨 스킬 데미지 \n 상승량은 레벨당 데미지 상승량 \n ex) 폭시 기준 스킬 데미지 365 , 상승량 7", font=generalfont)
 explanation3.pack()
@@ -27,7 +27,7 @@ explanation4 = Label(frame_explane , text = "3. 계산 버튼을 누르기",font
 explanation4.pack()
 explanation5 = Label(frame_explane , text = "4. 같은 폴더 안에 생성된 \n 스킬트리.txt에서 결과를 확인",font=generalfont )
 explanation5.pack()
-explanation6 = Label(frame_explane , text = "참고 : 딜지분, 방무는 xx.xx의 형태로 입력 \n ex) 13.92 \n 보총뎀과 방무는 6차 스킬(오리진)을 \n 사용할 때의 값으로 입력 \n 레벨은 입력하지 않을 시 5차는 \'0\'레벨 \n 나머지는 \'1\'레벨로 입력됩니다." ,font=generalfont )
+explanation6 = Label(frame_explane , text = "참고 : 딜지분, 방무는 xx.xx의 형태로 입력 \n ex) 13.92 \n 보총뎀과 방무는 6차 스킬(오리진)을 \n 사용할 때의 값으로 입력해야합니다. \n 레벨은 입력하지 않을 시 5차는 \'0\'레벨 \n 나머지는 \'1\'레벨로 입력됩니다." ,font=generalfont )
 explanation6.pack()
 '''보총뎀 , 방무 입력 및 버전 선택'''
 bossdamage = Label(root , text="보총뎀 : " , font=generalfont)
