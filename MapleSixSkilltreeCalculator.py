@@ -38,7 +38,8 @@ defignore = Label(root, text="방무 : " , font=generalfont)
 defignore.place ( x = 160 , y = 420)
 inputignoredef = Entry(root , width = 5)
 inputignoredef.place(x = 210 , y = 420)
-version_value = [ "1. 조각의 효율성 계산" ,"1.1 조각의 효율성 계산(장기)" ,"2. 솔 에르다의 효율성 계산", "2.1 솔 에르다의 효율성 계산(장기)"]
+#version_value = [ "1. 조각의 효율성 계산" ,"1.1 조각의 효율성 계산(장기)" ,"2. 솔 에르다의 효율성 계산", "2.1 솔 에르다의 효율성 계산(장기)"]
+version_value = [ "1. 조각의 효율성 계산"  ,"2. 솔 에르다의 효율성 계산"]
 version = ttk.Combobox(root , values= version_value,state="readonly" , width = 28 , font=generalfont)
 version.current(0)
 version.place(x = 40 , y = 450)

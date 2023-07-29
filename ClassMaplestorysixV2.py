@@ -28,7 +28,7 @@ class Mastery: # 마스터리 코어
         self.damage_percent = []
         self.damage_rise = {}
         #self.damage = {}
-        self.solerda = [ 1,1,1,2,2,2,3,3,10,3,3,4,4,4,4,4,4,5,15,5,5,5,5,5,6,6,6,7,20,100] 
+        self.solerda = [ 1,1,1,1,1,1,2,2,5,2,2,2,2,2,2,2,2,3,8,3,3,3,3,3,3,3,3,4,10,100] 
         self.level = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
     
     def addname(self, newname):
@@ -231,8 +231,6 @@ class CharacterV2:
                     add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10solerda
                     result.append(add10)
                     result_dic[add10] = ['enhance', i, currentlevel-1, self.enhanceinfo.name[i] ,add10, level10solerda]
-                    level10dmg = 1
-                    level10solerda = 0
                     break
             
             
@@ -254,8 +252,6 @@ class CharacterV2:
                     add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10solerda
                     result.append(add10)
                     result_dic[add10] = ['mastery', i, currentlevel-1, self.masteryinfo.name[i],add10, level10solerda]
-                    level10dmg = 1
-                    level10solerda = 0
                     break
                      
             
@@ -276,9 +272,7 @@ class CharacterV2:
                 if currentlevel % 10 == 1:
                     add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10solerda
                     result.append(add10)
-                    result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i],add10, level10solerda]    
-                    level10dmg = 1
-                    level10solerda = 0       
+                    result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i],add10, level10solerda]          
                     break
             
             

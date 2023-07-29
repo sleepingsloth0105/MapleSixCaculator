@@ -233,8 +233,6 @@ class CharacterV1:
                     add10 = self.enhanceinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                     result.append(add10)
                     result_dic[add10] = ['enhance', i, currentlevel-1, self.enhanceinfo.name[i] ,add10, level10piece]
-                    level10dmg = 1
-                    level10piece = 0
                     break
             
             
@@ -256,8 +254,6 @@ class CharacterV1:
                     add10 = self.masteryinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                     result.append(add10)
                     result_dic[add10] = ['mastery', i, currentlevel-1, self.masteryinfo.name[i],add10, level10piece]
-                    level10dmg = 1
-                    level10piece = 0
                     break
                      
             
@@ -279,8 +275,6 @@ class CharacterV1:
                     add10 = self.skillinfo.damage_percent[i] * (level10dmg - 1) /level10piece
                     result.append(add10)
                     result_dic[add10] = ['skill', i, currentlevel-1, self.skillinfo.name[i],add10, level10piece]    
-                    level10dmg = 1
-                    level10piece = 0       
                     break
             
             
